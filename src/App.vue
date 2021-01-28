@@ -1,7 +1,7 @@
 <template>
     <div id="app" class="flex flex-col items-center">
         <div id="content">
-            <h1 class="text-center">PROTOKOL Paper Wallet</h1>
+            <h1 class="text-center">Protokol Paper Wallet</h1>
             <span class="text-center">Generate Your Own Unique Passphrase and Address</span>
 
             <router-view />

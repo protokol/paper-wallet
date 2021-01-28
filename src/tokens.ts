@@ -2,7 +2,7 @@ import { IToken } from "./interfaces";
 
 export const tokens: Record<string, IToken> = {
     protokol: {
-        name: "PROTOKOL",
+        name: "Protokol",
         networks: {
             devnet: {
                 addressPrefix: 55,
@@ -11,7 +11,7 @@ export const tokens: Record<string, IToken> = {
         },
     },
     protokolEbsi: {
-        name: "PROTOKOL EBSI",
+        name: "Protokol EBSI",
         networks: {
             devnet: {
                 addressPrefix: 33,
