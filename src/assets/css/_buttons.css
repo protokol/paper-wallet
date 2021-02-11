@@ -24,12 +24,12 @@
 
 .light-button {
     background-color: #eef6ff;
-    color: #377fea;
+    color: #429EF5;
     @apply .flex .items-center .justify-center .font-semibold .rounded .py-3 .px-5 .transition
 }
 
 .light-button:hover {
-    background-color: #007cff;
+    background-color: #333333;
     color: #e0f0fd;
 }
 
