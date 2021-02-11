@@ -34,14 +34,14 @@ import Component from "vue-class-component";
 
 @Component
 export default class App extends Vue {
-    public toggleMessage: string = "Or sign / verify a message";
+    public toggleMessage: string = "Sign or Verify a Message";
     public showMessageButtons: boolean = false;
 
     public toggle(): void {
         this.showMessageButtons = !this.showMessageButtons;
         this.showMessageButtons
-            ? (this.toggleMessage = "Or generate / import a wallet")
-            : (this.toggleMessage = "Or sign / verify a message");
+            ? (this.toggleMessage = "Generate or Import a Wallet")
+            : (this.toggleMessage = "Sign or Verify a Message");
     }
 }
 </script>
