@@ -9,7 +9,7 @@
             <modal :is-open="isOpen" @close="closeSettings()"></modal>
 
             <div class="flex flex-wrap justify-center items-center mt-10 print-ignore" v-if="!isGenerating">
-                <button class="text-gray-500 inline-link mr-4" type="button" @click="openSettings()">
+                <button class="text-gray-500 inline-link mr-4 underline-none" type="button" @click="openSettings()">
                     Choose Network: {{ network }}
                 </button>
 
@@ -101,5 +101,9 @@ export default class App extends Vue {
     background-image: url('assets/img/background.svg');
     background-size: 34%;
     background-position: center top;
+}
+
+.underline-none {
+ text-decoration none;
 }
 </style>
