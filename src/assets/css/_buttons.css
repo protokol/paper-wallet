@@ -4,7 +4,7 @@
 }
 
 .primary-action-button {
-    background-color: #fe463a;
+    background-color: #429EF5;
     @apply .flex .justify-center .items-center .text-white .rounded .py-3 px-5 .font-semibold .transition;
 }
 

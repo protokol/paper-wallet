@@ -97,6 +97,9 @@ export default class App extends Vue {
 
 <style lang="stylus">
 #content {
-    background-image: url('assets/img/background.png');
+    margin-top 2%;
+    background-image: url('assets/img/background.svg');
+    background-size: 34%;
+    background-position: center top;
 }
 </style>
