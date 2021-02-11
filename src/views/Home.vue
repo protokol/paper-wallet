@@ -4,11 +4,11 @@
             <router-link
                 class="primary-action-button mb-5 sm:mb-0 sm:mr-5 whitespace-no-wrap"
                 :to="{ name: 'wallet:entropy' }"
-                >Create a new wallet</router-link
+                >Create a New Wallet</router-link
             >
 
             <router-link class="light-button whitespace-no-wrap" :to="{ name: 'wallet:passphrase' }"
-                >Enter a secret passphrase</router-link
+                >Enter a Secret Passphrase</router-link
             >
         </div>
 

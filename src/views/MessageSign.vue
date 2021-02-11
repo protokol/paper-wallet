@@ -47,17 +47,17 @@ export default class MessageSign extends Vue {
         this.showForceSign = false;
 
         if (!this.message) {
-            this.errorText = "Please fill out the message.";
+            this.errorText = "Please Fill out the Message.";
             return;
         }
 
         if (!this.passphrase) {
-            this.errorText = "Please fill out the passphrase.";
+            this.errorText = "Please Fill out the Passphrase.";
             return;
         }
 
         if (!validateMnemonic(this.passphrase)) {
-            this.errorText = "The passphrase does not appear to be BIP39";
+            this.errorText = "The Passphrase does not Appear to be BIP39";
             this.showForceSign = true;
             return;
         }
@@ -82,5 +82,10 @@ input[type="text"],
 input[type="password"] {
     appearance: none;
     @apply .bg-transparent .py-2 .border-t-0 .border-l-0 .border-r-0 .border-b-2 .border-gray-500 .rounded-none;
+    outline-color: #429EF5;
+}
+.border{
+    @apply border;
+    border-color: #429EF5;
 }
 </style>

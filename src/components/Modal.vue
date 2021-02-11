@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-top">
                 <span class="font-bold text-2xl">Select a Network</span>
-                <span>Choose the network to use for the paper wallet</span>
+                <span>Choose the Network to use for the paper Wallet</span>
                 <img src="@/assets/img/globe.png" />
             </div>
             <div class="modal-bottom">
@@ -39,7 +39,7 @@
                             Save
                         </button>
                     </div>
-                    <span class="text-xs inline-link" @click="toggleCustom(true)">Want to use a custom network?</span>
+                    <span class="text-xs inline-link" @click="toggleCustom(true)">Want to use a Custom Network?</span>
                 </div>
                 <div v-else>
                     <span class="mr-3 block w-full text-sm font-bold text-gray-500">Network</span>
@@ -58,7 +58,7 @@
                         <button class="light-button font-bold w-1/5" @click.prevent="saveConfigFromCustom">Save</button>
                     </div>
                     <span class="text-xs inline-link" @click="toggleCustom(false)"
-                        >Want to use an existing network?</span
+                        >Want to use an Existing Network?</span
                     >
                 </div>
                 <Alert :message="error" type="error" v-if="error" />
@@ -134,7 +134,7 @@ export default class Modal extends Vue {
 
             this.close();
         } else {
-            this.error = "Please fill out the address prefix and wif.";
+            this.error = "Please Fill out the Address Prefix and Wif.";
         }
     }
 

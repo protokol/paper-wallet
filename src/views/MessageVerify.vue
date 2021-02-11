@@ -55,17 +55,17 @@ export default class MessageVerify extends Vue {
 
     public verifyMessage(): void {
         if (!this.message) {
-            this.errorText = "Please fill out the message.";
+            this.errorText = "Please Fill out the Message.";
             return;
         }
 
         if (!this.publicKey) {
-            this.errorText = "Please fill out the publicKey.";
+            this.errorText = "Please Fill out the PublicKey.";
             return;
         }
 
         if (!this.signature) {
-            this.errorText = "Please fill out the signature.";
+            this.errorText = "Please Fill out the Signature.";
             return;
         }
 
@@ -89,5 +89,7 @@ export default class MessageVerify extends Vue {
 input[type="text"] {
     appearance: none;
     @apply .bg-transparent .py-2 .border-t-0 .border-l-0 .border-r-0 .border-b-2 .border-gray-500 .rounded-none;
+    outline-color: #429EF5;
 }
+
 </style>

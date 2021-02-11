@@ -8,7 +8,7 @@
                 class="border p-4 mr-5"
                 id="wallet-passphrase"
             />
-            <button class="primary-action-button" @click.prevent="generateWallet">Generate</button>
+            <button class="primary-action-button focus:outline-none" @click.prevent="generateWallet">Generate</button>
         </div>
         <div class="flex flex-col items-center" v-if="errorText">
             <Alert :message="errorText" type="error" />
@@ -32,12 +32,12 @@ export default class WalletFromPassphrase extends Vue {
 
     public generateWallet(): void {
         if (!this.passphrase) {
-            this.errorText = "Please fill out the passphrase.";
+            this.errorText = "Please Fill out the Passphrase.";
             return;
         }
 
         if (!validateMnemonic(this.passphrase)) {
-            this.errorText = "The passphrase does not appear to be BIP39";
+            this.errorText = "The Passphrase does not Appear to be BIP39";
             return;
         }
 
@@ -60,5 +60,6 @@ export default class WalletFromPassphrase extends Vue {
 input[type="text"] {
     appearance: none;
     @apply .bg-transparent .py-2 .border-t-0 .border-l-0 .border-r-0 .border-b-2 .border-gray-500 .rounded-none;
+    outline-color: #429EF5;
 }
 </style>

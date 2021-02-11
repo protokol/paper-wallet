@@ -19,7 +19,7 @@
             </div>
 
             <div class="flex flex-wrap justify-center items-center mt-10 print-ignore" v-else>
-                <span>Generating your passphrase, hang in there!</span>
+                <span>Generating your Passphrase, Hang in there!</span>
             </div>
 
             <div class="flex flex-col text-gray-500 text-center mt-10 mb-5 print-ignore">
@@ -27,7 +27,7 @@
                     Made with ❤️
                     <a class="inline-link" href="https://ark.io" target="_blank">ARK.io</a> |
                     <a class="inline-link" href="https://protokol.com" target="_blank">Protokol.com</a> |
-                    <a class="inline-link" href="https://github.com/ArkEcosystem/paper-wallet" target="_blank">View source</a>
+                    <a class="inline-link" href="https://github.com/ArkEcosystem/paper-wallet" target="_blank">View Source</a>
                 </span>
             </div>
         </div>

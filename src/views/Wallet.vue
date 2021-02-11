@@ -18,7 +18,7 @@
                             <span>Address</span>
                             <button
                                 id="address-copy"
-                                class="print-ignore text-gray-500 ml-3"
+                                class="print-ignore text-gray-500 ml-3 focus:outline-none"
                                 @click="copy('#wallet-address', 'isAddressCopying')"
                             >
                                 <svg
@@ -45,7 +45,7 @@
                             <span>Passphrase</span>
                             <button
                                 id="passphrase-copy"
-                                class="print-ignore text-gray-500 ml-3"
+                                class="print-ignore text-gray-500 ml-3 focus:outline-none"
                                 @click="copy('#wallet-passphrase', 'isPassphraseCopying')"
                             >
                                 <svg
