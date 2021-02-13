@@ -4,19 +4,19 @@ import fixture from "../../__fixtures__/message.json";
 describe("Message - Sign", () => {
     it("should fail if no message is given", () => {
         cy.visit("/");
-        cy.contains("Or sign / verify a message").click();
+        cy.contains("Sign or Verify a Message").click();
         cy.contains("a", "Sign Message");
         cy.contains("Sign Message").click();
         cy.url().should("eq", "http://localhost:8080/#/message/sign");
 
         cy.contains("Sign").click();
 
-        cy.contains("div", "Please fill out the message.");
+        cy.contains("div", "Please Fill out the Message.");
     });
 
     it("should fail if no passphrase is given", () => {
         cy.visit("/");
-        cy.contains("Or sign / verify a message").click();
+        cy.contains("Sign or Verify a Message").click();
         cy.contains("a", "Sign Message");
         cy.contains("Sign Message").click();
         cy.url().should("eq", "http://localhost:8080/#/message/sign");
@@ -24,12 +24,12 @@ describe("Message - Sign", () => {
         cy.get("#message-message").type(fixture.data.message);
         cy.contains("Sign").click();
 
-        cy.contains("div", "Please fill out the passphrase.");
+        cy.contains("div", "Please Fill out the Passphrase.");
     });
 
     it("should sign a message (bip39)", () => {
         cy.visit("/");
-        cy.contains("Or sign / verify a message").click();
+        cy.contains("Sign or Verify a Message").click();
         cy.contains("a", "Sign Message");
         cy.contains("Sign Message").click();
         cy.url().should("eq", "http://localhost:8080/#/message/sign");
@@ -51,7 +51,7 @@ describe("Message - Sign", () => {
 
     it("should sign a message (no bip39)", () => {
         cy.visit("/");
-        cy.contains("Or sign / verify a message").click();
+        cy.contains("Sign or Verify a Message").click();
         cy.contains("a", "Sign Message");
         cy.contains("Sign Message").click();
         cy.url().should("eq", "http://localhost:8080/#/message/sign");
@@ -71,19 +71,19 @@ describe("Message - Sign", () => {
 describe("Message - Verify", () => {
     it("should fail if no message is given", () => {
         cy.visit("/");
-        cy.contains("Or sign / verify a message").click();
+        cy.contains("Sign or Verify a Message").click();
         cy.contains("a", "Verify Message");
         cy.contains("Verify Message").click();
         cy.url().should("eq", "http://localhost:8080/#/message/verify");
 
         cy.contains("Verify").click();
 
-        cy.contains("div", "Please fill out the message.");
+        cy.contains("div", "Please Fill out the Message.");
     });
 
     it("should fail if no public key is given", () => {
         cy.visit("/");
-        cy.contains("Or sign / verify a message").click();
+        cy.contains("Sign or Verify a Message").click();
         cy.contains("a", "Verify Message");
         cy.contains("Verify Message").click();
         cy.url().should("eq", "http://localhost:8080/#/message/verify");
@@ -91,12 +91,12 @@ describe("Message - Verify", () => {
         cy.get("#message-message").type(fixture.data.message);
         cy.contains("Verify").click();
 
-        cy.contains("div", "Please fill out the publicKey.");
+        cy.contains("div", "Please Fill out the PublicKey.");
     });
 
     it("should fail if no signature is given", () => {
         cy.visit("/");
-        cy.contains("Or sign / verify a message").click();
+        cy.contains("Sign or Verify a Message").click();
         cy.contains("a", "Verify Message");
         cy.contains("Verify Message").click();
         cy.url().should("eq", "http://localhost:8080/#/message/verify");
@@ -105,12 +105,12 @@ describe("Message - Verify", () => {
         cy.get("#message-publicKey").type(fixture.data.publicKey);
         cy.contains("Verify").click();
 
-        cy.contains("div", "Please fill out the signature.");
+        cy.contains("div", "Please Fill out the Signature.");
     });
 
     it("should pass to verify a valid message", () => {
         cy.visit("/");
-        cy.contains("Or sign / verify a message").click();
+        cy.contains("Sign or Verify a Message").click();
         cy.contains("a", "Verify Message");
         cy.contains("Verify Message").click();
         cy.url().should("eq", "http://localhost:8080/#/message/verify");
@@ -120,12 +120,12 @@ describe("Message - Verify", () => {
         cy.get("#message-signature").type(fixture.data.signature);
         cy.contains("Verify").click();
 
-        cy.contains("div", "The message has been successfully verified.");
+        cy.contains("div", "The Message has been Successfully Verified.");
     });
 
     it("should fail to verify an invalid message", () => {
         cy.visit("/");
-        cy.contains("Or sign / verify a message").click();
+        cy.contains("Sign or Verify a Message").click();
         cy.contains("a", "Verify Message");
         cy.contains("Verify Message").click();
         cy.url().should("eq", "http://localhost:8080/#/message/verify");
@@ -135,6 +135,6 @@ describe("Message - Verify", () => {
         cy.get("#message-signature").type(fixture.data.signature);
         cy.contains("Verify").click();
 
-        cy.contains("div", "The message could not be verified.");
+        cy.contains("div", "The Message could not be Verified.");
     });
 });

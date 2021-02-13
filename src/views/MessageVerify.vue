@@ -3,7 +3,7 @@
         <div class="flex flex-col sm:flex-row flex-wrap justify-center items-center wallet-from-passphrase mt-5">
             <input
                 type="text"
-                placeholder="Enter your message"
+                placeholder="Enter your Message"
                 v-model="message"
                 class="border p-4 w-full sm:w-auto sm:mr-5 mb-5"
                 id="message-message"
@@ -19,7 +19,7 @@
 
             <input
                 type="text"
-                placeholder="Enter your signature"
+                placeholder="Enter your Signature"
                 v-model="signature"
                 class="border p-4 w-full sm:w-auto sm:mr-5 mb-5"
                 id="message-signature"
@@ -31,9 +31,9 @@
         <div class="flex flex-col items-center">
             <Alert :message="errorText" type="error" v-if="errorText" />
 
-            <Alert message="The message has been successfully verified." type="success" v-if="isValid === true" />
+            <Alert message="The Message has been Successfully Verified." type="success" v-if="isValid === true" />
 
-            <Alert message="The message could not be verified." type="error" v-if="isValid === false" />
+            <Alert message="The Message could not be Verified." type="error" v-if="isValid === false" />
         </div>
     </div>
 </template>

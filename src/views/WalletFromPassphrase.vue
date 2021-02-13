@@ -3,7 +3,7 @@
         <div class="flex items-center wallet-from-passphrase mt-5">
             <input
                 type="text"
-                placeholder="Enter your passphrase"
+                placeholder="Enter your Passphrase"
                 v-model="passphrase"
                 class="border p-4 mr-5"
                 id="wallet-passphrase"

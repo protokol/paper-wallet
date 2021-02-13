@@ -3,7 +3,7 @@
         <div class="flex flex-col sm:flex-row sm:justify-start items-center wallet-from-passphrase mt-5">
             <input
                 type="text"
-                placeholder="Enter your message"
+                placeholder="Enter your Message"
                 v-model="message"
                 class="border p-4 w-full sm:w-auto sm:mr-5 mb-5"
                 id="message-message"
@@ -11,7 +11,7 @@
 
             <input
                 type="password"
-                placeholder="Enter your passphrase"
+                placeholder="Enter your Passphrase"
                 v-model="passphrase"
                 class="border p-4 w-full sm:w-auto sm:mr-5 mb-5"
                 id="message-passphrase"
