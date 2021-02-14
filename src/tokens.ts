@@ -10,8 +10,8 @@ export const tokens: Record<string, IToken> = {
             },
         },
     },
-    protokolEbsi: {
-        name: "Protokol EBSI",
+    ebsi: {
+        name: "EBSI",
         networks: {
             devnet: {
                 addressPrefix: 33,
