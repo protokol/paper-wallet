@@ -3,8 +3,8 @@ import fixture from "../../__fixtures__/identity.json";
 describe("Wallet - From Entropy", () => {
     it("should generate a wallet", () => {
         cy.visit("/");
-        cy.contains("a", "Create a new wallet");
-        cy.contains("Create a new wallet").click();
+        cy.contains("a", "Create a New Wallet");
+        cy.contains("Create a New Wallet").click();
         cy.url().should("eq", "http://localhost:8080/#/wallet/entropy");
         cy.wait(5000);
         cy.url().should("eq", "http://localhost:8080/#/wallet");
@@ -19,19 +19,19 @@ describe("Wallet - From Entropy", () => {
 describe("Wallet - From Passphrase", () => {
     it("should fail if no passphrase is given", () => {
         cy.visit("/");
-        cy.contains("a", "Enter a secret passphrase");
-        cy.contains("Enter a secret passphrase").click();
+        cy.contains("a", "Enter a Secret Passphrase");
+        cy.contains("Enter a Secret Passphrase").click();
         cy.url().should("eq", "http://localhost:8080/#/wallet/passphrase");
 
         cy.contains("button", "Generate").click();
 
-        cy.contains("div", "Please fill out the passphrase.");
+        cy.contains("div", "Please Fill out the Passphrase.");
     });
 
     it("should generate a wallet (bip39)", () => {
         cy.visit("/");
-        cy.contains("a", "Enter a secret passphrase");
-        cy.contains("Enter a secret passphrase").click();
+        cy.contains("a", "Enter a Secret Passphrase");
+        cy.contains("Enter a Secret Passphrase").click();
         cy.url().should("eq", "http://localhost:8080/#/wallet/passphrase");
 
         cy.get("#wallet-passphrase").type(
@@ -41,7 +41,7 @@ describe("Wallet - From Passphrase", () => {
 
         cy.url().should("eq", "http://localhost:8080/#/wallet");
 
-        cy.contains("span", "AUc8f2A1gn33a7zbubTym55u2ERHc8tt9k");
+        cy.contains("span", "PMRSAVhEQYs5jzTNh28BH5o5ANfUNRGrzM");
         cy.contains("span", "c9e1335992811f8507a30d076cc1dc0d");
         cy.contains("span", "039387c299adb4c9f7ba532934d3e210eb21d374cb285926d3d49c8c71e18bc4de");
         cy.contains("span", "SBic9QRyBxVw5xeacLocLiULN6NYy9o93tmizq2WcESgJM4EzyvK");
@@ -49,14 +49,14 @@ describe("Wallet - From Passphrase", () => {
 
     it("should generate a wallet (no bip39)", () => {
         cy.visit("/");
-        cy.contains("a", "Enter a secret passphrase");
-        cy.contains("Enter a secret passphrase").click();
+        cy.contains("a", "Enter a Secret Passphrase");
+        cy.contains("Enter a Secret Passphrase").click();
         cy.url().should("eq", "http://localhost:8080/#/wallet/passphrase");
 
         cy.get("#wallet-passphrase").type(fixture.passphrase);
         cy.contains("button", "Generate").click();
 
-        cy.contains("div", "The passphrase does not appear to be BIP39");
+        cy.contains("div", "The Passphrase does not Appear to be BIP39");
         cy.contains("button", "Generate Anyway").click();
 
         cy.url().should("eq", "http://localhost:8080/#/wallet");
