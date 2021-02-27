@@ -38,7 +38,7 @@ export default class WalletFromEntropy extends Vue {
     public mounted(): void {
         this.entropyTimer = setInterval(this.generateEntropyProgress, 100);
 
-        new Generator().generate(2048, values => {
+        new Generator().generate(2048, (values) => {
             this.entropy = values.concat(Array.from(randomBytes(256)));
 
             this.generateWallet();
@@ -75,10 +75,7 @@ export default class WalletFromEntropy extends Vue {
         }
 
         this.entropyProgress = {
-            title: randomBytes(20)
-                .toString("hex")
-                .substring(0, 1)
-                .toUpperCase(),
+            title: randomBytes(20).toString("hex").substring(0, 1).toUpperCase(),
             subtitle: value,
         };
     }

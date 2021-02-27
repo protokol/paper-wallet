@@ -209,7 +209,7 @@ select {
 input[type="number"] {
     appearance: none;
     @apply .bg-white .py-2 .border-b-2 .border-gray-500 .rounded-none;
-    outline-color: #429EF5;
+    outline-color: #429ef5;
 }
 
 /* Shared */

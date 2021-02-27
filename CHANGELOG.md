@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
--   Progressive Web App  support ([#29])
+-   Progressive Web App support ([#29])
 
 ## 3.1.0 - 07-08-2019
 

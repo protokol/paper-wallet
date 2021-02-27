@@ -10,7 +10,7 @@ module.exports = {
     publicPath,
     lintOnSave: false,
     pwa: {
-      themeColor: "#fe463a",
-      msTileColor: "#fe463a",
+        themeColor: "#fe463a",
+        msTileColor: "#fe463a",
     },
 };
