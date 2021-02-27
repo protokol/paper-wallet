@@ -9,10 +9,10 @@ describe("Wallet - From Entropy", () => {
         cy.wait(5000);
         cy.url().should("eq", "http://localhost:8080/#/wallet");
 
-        cy.get("#w-address").should($lis => expect($lis.text()).to.have.length(34));
-        cy.get("#w-entropy").should($lis => expect($lis.text()).to.have.length(32));
-        cy.get("#w-publicKey").should($lis => expect($lis.text()).to.have.length(66));
-        cy.get("#w-wif").should($lis => expect($lis.text()).to.have.length(52));
+        cy.get("#w-address").should(($lis) => expect($lis.text()).to.have.length(34));
+        cy.get("#w-entropy").should(($lis) => expect($lis.text()).to.have.length(32));
+        cy.get("#w-publicKey").should(($lis) => expect($lis.text()).to.have.length(66));
+        cy.get("#w-wif").should(($lis) => expect($lis.text()).to.have.length(52));
     });
 });
 

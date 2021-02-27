@@ -27,7 +27,9 @@
                     Made with ❤️
                     <a class="inline-link" href="https://ark.io" target="_blank">ARK.io</a> |
                     <a class="inline-link" href="https://protokol.com" target="_blank">Protokol.com</a> |
-                    <a class="inline-link" href="https://github.com/ArkEcosystem/paper-wallet" target="_blank">View Source</a>
+                    <a class="inline-link" href="https://github.com/ArkEcosystem/paper-wallet" target="_blank"
+                        >View Source</a
+                    >
                 </span>
             </div>
         </div>
