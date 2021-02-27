@@ -35,6 +35,6 @@ export default class Message extends Vue {
 
 <style>
 .wallet-property-row {
-    @apply .border-b .border-dashed .border-gray-400 .pb-6;
+    @apply border-b border-dashed border-gray-400 pb-6;
 }
 </style>

@@ -4,16 +4,16 @@ h2,
 h3,
 h4 {
     font-family: 'Lato', 'Avenir', Helvetica, Arial, sans-serif;
-    @apply .font-black .leading-none !important;
+    @apply font-black leading-none !important;
 }
 
 h1 {
-    @apply .text-4xl .mb-3 !important;
+    @apply text-4xl mb-3 !important;
 }
 
 @screen sm {
     h1 {
-        @apply .text-6xl !important;
+        @apply text-6xl !important;
     }
 }
 
@@ -34,12 +34,12 @@ body {
     padding-top: 28%;
     background-size: 100%;
     max-width: 1400px;
-    @apply .flex .flex-col .items-center .bg-no-repeat .w-full .px-4;
+    @apply flex flex-col items-center bg-no-repeat w-full px-4;
 }
 
 @screen sm {
     #content {
-        @apply .px-10;
+        @apply px-10;
     }
 }
 
@@ -50,16 +50,16 @@ body {
 }
 
 .home {
-    @apply .flex .flex-col .items-center;
+    @apply flex flex-col items-center;
 }
 
 .inline-link,
 .inline-link:visited {
     color: inherit;
-    @apply .underline .cursor-pointer;
+    @apply underline cursor-pointer;
 }
 
 .inline-link:hover,
 .inline-link:visited:hover {
-    @apply .text-gray-600;
+    @apply text-gray-600;
 }

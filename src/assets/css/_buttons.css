@@ -3,12 +3,12 @@
     transition: all 0.1s ease-in;
 }
 button:focus {
-    @apply .outline-none !important;
+    @apply outline-none !important;
 }
 
 .primary-action-button {
     background-color: #429EF5;
-    @apply .flex .justify-center .items-center .text-white .rounded .py-3 px-5 .font-semibold .transition;
+    @apply flex justify-center items-center text-white rounded py-3 px-5 font-semibold transition;
 }
 
 .primary-action-button:hover {
@@ -18,7 +18,7 @@ button:focus {
 
 .secondary-action-button {
     background-image: linear-gradient(to right, #429EF5, #429EF5);
-    @apply .flex .justify-center .items-center .text-white .rounded .py-3 .px-5 .font-semibold .transition;
+    @apply flex justify-center items-center text-white rounded py-3 px-5 font-semibold transition;
 }
 
 .secondary-action-button:hover {
@@ -28,7 +28,7 @@ button:focus {
 .light-button {
     background-color: #eef6ff;
     color: #429EF5;
-    @apply .flex .items-center .justify-center .font-semibold .rounded .py-3 .px-5 .transition
+    @apply flex items-center justify-center font-semibold rounded py-3 px-5 transition
 }
 
 .light-button:hover {
@@ -38,7 +38,7 @@ button:focus {
 
 .link-button {
     color: #037cff;
-    @apply .flex .items-center .font-semibold .transition;
+    @apply flex items-center font-semibold transition;
 }
 
 .link-button:hover {
@@ -48,7 +48,7 @@ button:focus {
 .icon-button {
     background-color: #eef6ff;
     color: #429EF5;
-    @apply .flex .items-center .justify-center .rounded .p-3 .transition .w-12 .h-12;
+    @apply flex items-center justify-center rounded p-3 transition w-12 h-12;
 }
 
 .icon-button:hover {

@@ -96,7 +96,7 @@ export default class WalletFromEntropy extends Vue {
 
 .entropy-wrapper-outer,
 .entropy-wrapper-inner {
-    @apply .flex .flex-col .justify-center .absolute .left-0 .right-0 .mx-auto .text-center;
+    @apply flex flex-col justify-center absolute left-0 right-0 mx-auto text-center;
 }
 
 .entropy-wrapper-outer {
@@ -110,10 +110,10 @@ export default class WalletFromEntropy extends Vue {
 }
 
 .entropy-title {
-    @apply .font-bold .text-base .leading-none;
+    @apply font-bold text-base leading-none;
 }
 
 .entropy-subtitle {
-    @apply .text-gray-500 .text-sm;
+    @apply text-gray-500 text-sm;
 }
 </style>

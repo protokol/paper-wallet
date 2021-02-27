@@ -236,7 +236,7 @@ export default class Wallet extends Vue {
 
 <style>
 .wallet-property-row {
-    @apply .border-b .border-dashed .border-gray-400 .pb-6;
+    @apply border-b border-dashed border-gray-400 pb-6;
 }
 
 .passphrase-grid {
@@ -249,6 +249,6 @@ export default class Wallet extends Vue {
     left: 5px;
     top: 3px;
     font-size: 0.6rem;
-    @apply .absolute .font-semibold .text-gray-500;
+    @apply absolute font-semibold text-gray-500;
 }
 </style>
