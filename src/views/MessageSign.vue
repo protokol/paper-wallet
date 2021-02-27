@@ -5,7 +5,7 @@
                 type="text"
                 placeholder="Enter your Message"
                 v-model="message"
-                class="border p-4 w-full sm:w-auto sm:mr-5 mb-5"
+                class="custom-border p-4 w-full sm:w-auto sm:mr-5 mb-5"
                 id="message-message"
             />
 
@@ -13,7 +13,7 @@
                 type="password"
                 placeholder="Enter your Passphrase"
                 v-model="passphrase"
-                class="border p-4 w-full sm:w-auto sm:mr-5 mb-5"
+                class="custom-border p-4 w-full sm:w-auto sm:mr-5 mb-5"
                 id="message-passphrase"
             />
 
@@ -81,10 +81,10 @@ export default class MessageSign extends Vue {
 input[type="text"],
 input[type="password"] {
     appearance: none;
-    @apply .bg-transparent .py-2 .border-t-0 .border-l-0 .border-r-0 .border-b-2 .border-gray-500 .rounded-none;
+    @apply bg-transparent py-2 border-t-0 border-l-0 border-r-0 border-b-2 border-gray-500 rounded-none;
     outline-color: #429ef5;
 }
-.border {
+.custom-border {
     @apply border;
     border-color: #429ef5;
 }

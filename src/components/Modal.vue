@@ -151,16 +151,16 @@ export default class Modal extends Vue {
 <style>
 .modal-top {
     background-color: #2d2f38;
-    @apply .flex .flex-col .rounded-t-lg .p-10 .text-white;
+    @apply flex flex-col rounded-t-lg p-10 text-white;
 }
 
 .modal-top img {
     width: 8rem;
-    @apply .mt-3 .self-center;
+    @apply mt-3 self-center;
 }
 
 .modal-bottom {
-    @apply .bg-white .rounded-b-lg .p-10;
+    @apply bg-white rounded-b-lg p-10;
 }
 
 .modal-content {
@@ -168,13 +168,13 @@ export default class Modal extends Vue {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    @apply .fixed .rounded-lg .overflow-auto .z-10;
+    @apply fixed rounded-lg overflow-auto z-10;
 }
 
 @screen sm {
     .modal-content {
         max-width: 30rem;
-        @apply .w-full;
+        @apply w-full;
     }
 
     .modal-top img {
@@ -184,13 +184,13 @@ export default class Modal extends Vue {
 
 .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.4);
-    @apply .w-screen .h-screen .fixed .left-0 .top-0 .z-10 .overflow-hidden;
+    @apply w-screen h-screen fixed left-0 top-0 z-10 overflow-hidden;
 }
 
 .modal-close-button {
     top: 10px;
     right: 10px;
-    @apply .absolute .text-white .cursor-pointer;
+    @apply absolute text-white cursor-pointer;
 }
 
 @screen sm {
@@ -202,13 +202,13 @@ export default class Modal extends Vue {
 
 /* Existing Networks */
 select {
-    @apply .block .appearance-none .w-full .bg-white .border .border-gray-400 .px-4 .py-2 .pr-8 .rounded .shadow .leading-tight;
+    @apply block appearance-none w-full bg-white border border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight;
 }
 
 /* Custom Networks */
 input[type="number"] {
     appearance: none;
-    @apply .bg-white .py-2 .border-b-2 .border-gray-500 .rounded-none;
+    @apply bg-white py-2 border-b-2 border-gray-500 rounded-none;
     outline-color: #429ef5;
 }
 

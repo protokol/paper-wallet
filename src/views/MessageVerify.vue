@@ -88,7 +88,7 @@ export default class MessageVerify extends Vue {
 /* Custom Networks */
 input[type="text"] {
     appearance: none;
-    @apply .bg-transparent .py-2 .border-t-0 .border-l-0 .border-r-0 .border-b-2 .border-gray-500 .rounded-none;
+    @apply bg-transparent py-2 border-t-0 border-l-0 border-r-0 border-b-2 border-gray-500 rounded-none;
     outline-color: #429ef5;
 }
 </style>
