@@ -20,7 +20,7 @@
         "bs58check": "^2.1.2",
         "buffer": "^6.0.0",
         "core-js": "^3.6.5",
-        "html2canvas": "^1.0.0-rc.5",
+        "html2canvas": "^1.0.0-rc",
         "more-entropy": "^0.0.7",
         "register-service-worker": "^1.7.1",
         "ripemd160": "^2.0.2",
