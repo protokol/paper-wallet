@@ -26,7 +26,7 @@
         "ripemd160": "^2.0.2",
         "secp256k1": "^4.0.1",
         "simple-sha256": "^1.0.0",
-        "tailwindcss": "^2.0.0",
+        "tailwindcss": "^2.1.1",
         "vue": "^2.6.11",
         "vue-class-component": "^7.2.3",
         "vue-property-decorator": "^9.0.0",
