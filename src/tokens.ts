@@ -10,6 +10,15 @@ export const tokens: Record<string, IToken> = {
             },
         },
     },
+    nascar: {
+        name: "Nascar",
+        networks: {
+            devnet: {
+                addressPrefix: 53,
+                wif: 253,
+            },
+        },
+    },
     ebsi: {
         name: "EBSI",
         networks: {
