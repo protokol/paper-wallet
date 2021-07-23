@@ -5,14 +5,14 @@
 
 ## Running Locally
 
-There are two ways you can run the ARK Paperwallet locally:
+There are two ways you can run the Paper Wallet locally:
 
 1. Download the latest `dist.zip` release, extract the contents and open the `index.html` file in your browser.
 2. Clone the repo, install the requirements and dependencies and run `yarn serve` to run a local version.
 
 ## Adding Networks
 
-By default, the ARK Paper Wallet uses the ARK mainnet when generating a wallet.
+By default, the Paper Wallet uses the ARK mainnet when generating a wallet.
 However, it comes bundles with multiple network options that you can switch to, making it usable on for example devnet and bridgechains.
 If you run a public bridgechain, you can have your network added by creating a PR that adds the `name`, `pubkeyHash` and `WIF` to the existing list of networks.
 
