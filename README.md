@@ -1,25 +1,18 @@
-# ARK Paper Wallet
+# Paper Wallet
 
-<p align="center">
-    <img src="https://raw.githubusercontent.com/ARKEcosystem/paper-wallet/master/banner.png" />
-</p>
-
-[![Build Status](https://badgen.now.sh/circleci/github/ARKEcosystem/paper-wallet)](https://circleci.com/gh/ARKEcosystem/paper-wallet)
-[![Codecov](https://badgen.now.sh/codecov/c/github/arkecosystem/paper-wallet)](https://codecov.io/gh/arkecosystem/paper-wallet)
-[![License: MIT](https://badgen.now.sh/badge/license/MIT/green)](https://opensource.org/licenses/MIT)
-
-> Lead Maintainer: [Michel Kraaijeveld](https://github.com/ItsANameToo)
+![Img](paper-wallet.png)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ## Running Locally
 
-There are two ways you can run the ARK Paperwallet locally:
+There are two ways you can run the Paper Wallet locally:
 
 1. Download the latest `dist.zip` release, extract the contents and open the `index.html` file in your browser.
 2. Clone the repo, install the requirements and dependencies and run `yarn serve` to run a local version.
 
 ## Adding Networks
 
-By default, the ARK Paper Wallet uses the ARK mainnet when generating a wallet.
+By default, the Paper Wallet uses the ARK mainnet when generating a wallet.
 However, it comes bundles with multiple network options that you can switch to, making it usable on for example devnet and bridgechains.
 If you run a public bridgechain, you can have your network added by creating a PR that adds the `name`, `pubkeyHash` and `WIF` to the existing list of networks.
 
@@ -31,7 +24,7 @@ If the network you want to use is not listed in the dropdown, you can switch to 
 
 ### Requirements
 
-The ARK Paperwallet has the following requirements:
+The Paper Wallet has the following requirements:
 
 -   [Node](https://nodejs.org/)
 -   [Yarn (Optional but recommended)](https://yarnpkg.com)
@@ -68,12 +61,26 @@ yarn run task:deploy
 
 ## Security
 
-If you discover a security vulnerability within this package, please send an e-mail to security@ark.io. All security vulnerabilities will be promptly addressed.
-
-## Credits
-
-This project exists thanks to all the people who [contribute](../../contributors).
+If you discover a security vulnerability within this package, please send an e-mail to info@protokol.com. All security vulnerabilities will be promptly addressed.
 
 ## License
+This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/), under the following terms:
 
-[MIT](LICENSE) © [ARK Ecosystem](https://ark.io)
+#### Attribution
+
+You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+#### NonCommercial
+
+You may not use the material for commercial purposes. For commercial purposes please reach out to info@protokol.com.
+
+#### ShareAlike
+
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+
+#### Legal code
+
+Read the rest of the obligatory [license legal code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
+
+
+[CC BY-NC-SA 4.0](LICENSE) © [Protokol](https://protokol.com)
