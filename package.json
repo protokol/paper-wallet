@@ -59,7 +59,7 @@
         "lint-staged": "^11.0.0",
         "prettier": "^2.0.5",
         "purgecss": "^4.0.0",
-        "stylus": "^0.54.7",
+        "stylus": "^0.55.0",
         "stylus-loader": "^3.0.2",
         "ts-jest": "^26.0.0",
         "tslint-config-prettier": "^1.18.0",
