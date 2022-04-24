@@ -56,7 +56,7 @@
         "babel-core": "7.0.0-bridge.0",
         "codecov": "^3.6.5",
         "cross-env": "^7.0.2",
-        "lint-staged": "^11.0.0",
+        "lint-staged": "^12.0.0",
         "prettier": "^2.0.5",
         "purgecss": "^4.0.0",
         "stylus": "^0.55.0",
