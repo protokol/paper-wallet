@@ -9,48 +9,48 @@ jobs:
     unit:
         runs-on: ubuntu-latest
 
-        strategy:
-            matrix:
-                node-version: [12.x]
-
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
 
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v2
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
+
+            - name: Use Node.js 24
+              uses: actions/setup-node@v4
               with:
-                  node-version: ${{ matrix.node-version }}
+                  node-version: 24
+                  cache: pnpm
 
             - name: Install
-              run: yarn install --frozen-lockfile
+              run: pnpm install --frozen-lockfile
 
             - name: Build
-              run: yarn build
+              run: pnpm build
 
             - name: Test
-              run: yarn test:unit
+              run: pnpm test:unit
 
     deploy:
         needs: unit
 
         runs-on: ubuntu-latest
 
-        strategy:
-            matrix:
-                node-version: [12.x]
-
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
 
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v2
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
+
+            - name: Use Node.js 24
+              uses: actions/setup-node@v4
               with:
-                  node-version: ${{ matrix.node-version }}
+                  node-version: 24
+                  cache: pnpm
 
             - name: Install
-              run: yarn install --frozen-lockfile
+              run: pnpm install --frozen-lockfile
 
             - name: Deploy
-              run: yarn task:deploy:workflow
+              run: pnpm task:deploy:workflow
               env:
                   GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}

@@ -17,42 +17,39 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
-import { validateMnemonic } from "bip39";
-import { walletFromBIP39 } from "@/crypto";
+<script setup lang="ts">
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { validateMnemonic, walletFromBIP39 } from "@/crypto";
 import Alert from "@/components/Alert.vue";
 
-@Component({ components: { Alert } })
-export default class WalletFromPassphrase extends Vue {
-    public passphrase: string | null = null;
-    public errorText: string | null = null;
+const router = useRouter();
 
-    public generateWallet(): void {
-        if (!this.passphrase) {
-            this.errorText = "Please Fill out the Passphrase.";
-            return;
-        }
+const passphrase = ref("");
+const errorText = ref<string | null>(null);
 
-        if (!validateMnemonic(this.passphrase)) {
-            this.errorText = "The Passphrase does not Appear to be BIP39";
-            return;
-        }
-
-        this.forceGenerateWallet();
+const generateWallet = (): void => {
+    if (!passphrase.value) {
+        errorText.value = "Please Fill out the Passphrase.";
+        return;
     }
 
-    public forceGenerateWallet(): void {
-        this.errorText = null;
-
-        this.$router.push({
-            name: "wallet",
-            params: { wallet: JSON.stringify(walletFromBIP39(this.passphrase)) },
-        });
+    if (!validateMnemonic(passphrase.value)) {
+        errorText.value = "The Passphrase does not Appear to be BIP39";
+        return;
     }
-}
+
+    forceGenerateWallet();
+};
+
+const forceGenerateWallet = (): void => {
+    errorText.value = null;
+
+    router.push({
+        name: "wallet",
+        state: { wallet: JSON.stringify(walletFromBIP39(passphrase.value)) },
+    });
+};
 </script>
 
 <style>

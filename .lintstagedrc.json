@@ -1,4 +1,0 @@
-{
-    "*.ts": ["vue-cli-service lint"],
-    "*.vue": ["vue-cli-service lint"]
-}

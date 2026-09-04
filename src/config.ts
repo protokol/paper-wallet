@@ -1,4 +1,4 @@
-import { IToken } from "./interfaces";
+import type { IToken } from "./interfaces";
 import { tokens } from "./tokens";
 
 class Config {
@@ -50,7 +50,7 @@ class Config {
         return +this.get("addressPrefix");
     }
 
-    public setAddressPrefix(value: number): void {
+    public setAddressPrefix(value: number | string): void {
         this.set("addressPrefix", value.toString());
     }
 
@@ -58,7 +58,7 @@ class Config {
         return +this.get("wif");
     }
 
-    public setWIF(value: number): void {
+    public setWIF(value: number | string): void {
         this.set("wif", value.toString());
     }
 
@@ -76,7 +76,7 @@ class Config {
     }
 
     private get(key: string): string {
-        return localStorage.getItem(`${this.keyPrefix}.${key}`);
+        return localStorage.getItem(`${this.keyPrefix}.${key}`) ?? "";
     }
 
     private set(key: string, value: string): void {

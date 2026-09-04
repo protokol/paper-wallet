@@ -1,4 +1,4 @@
-import { IToken } from "./interfaces";
+import type { IToken } from "./interfaces";
 
 export const tokens: Record<string, IToken> = {
     protokol: {

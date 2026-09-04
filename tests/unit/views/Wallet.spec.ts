@@ -1,55 +1,69 @@
-import { shallowMount } from "@vue/test-utils";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { flushPromises, mount } from "@vue/test-utils";
+import { createRouter, createWebHistory } from "vue-router";
 import Wallet from "@/views/Wallet.vue";
-import { walletDummy } from "../../__fixtures__/wallet";
+import { walletDummy as walletDummy } from "../../__fixtures__/wallet";
 
-const createWrapper = () =>
-    shallowMount(Wallet, {
-        mocks: {
-            $route: {
-                name: "wallet",
-                path: "/wallet/:id",
-                params: { wallet: JSON.stringify(walletDummy) },
-            },
-        },
-        stubs: {
-            qrcode: true,
+const createWalletRouter = () =>
+    createRouter({
+        history: createWebHistory(),
+        routes: [
+            { path: "/", name: "home", component: { render: () => null } },
+            { path: "/wallet", name: "wallet", component: Wallet },
+        ],
+    });
+
+const mountWallet = async () => {
+    const router = createWalletRouter();
+
+    router.push({ name: "wallet", state: { wallet: JSON.stringify(walletDummy) } });
+    await router.isReady();
+
+    return mount(Wallet, {
+        global: {
+            plugins: [router],
+            stubs: { qrcode: true },
         },
     });
+};
+
+afterEach(() => {
+    window.history.replaceState(null, "", "/");
+});
 
 describe("Wallet.vue", () => {
-    it("sets props.wallet.passphrase when mounted", () => {
-        expect(createWrapper().vm.$data.wallet.passphrase).toContain(walletDummy.passphrase);
+    it("displays the wallet address", async () => {
+        expect((await mountWallet()).find("#w-address").text()).toContain(walletDummy.address);
     });
 
-    it("sets props.wallet.address when mounted", () => {
-        expect(createWrapper().vm.$data.wallet.address).toContain(walletDummy.address);
+    it("displays the wallet entropy", async () => {
+        expect((await mountWallet()).find("#w-entropy").text()).toContain(walletDummy.entropy);
     });
 
-    it("sets props.wallet.publicKey when mounted", () => {
-        expect(createWrapper().vm.$data.wallet.publicKey).toContain(walletDummy.publicKey);
+    it("displays the wallet public key", async () => {
+        expect((await mountWallet()).find("#w-publicKey").text()).toContain(walletDummy.publicKey);
     });
 
-    it("sets props.wallet.wif when mounted", () => {
-        expect(createWrapper().vm.$data.wallet.wif).toContain(walletDummy.wif);
+    it("displays the wallet wif", async () => {
+        expect((await mountWallet()).find("#w-wif").text()).toContain(walletDummy.wif);
     });
 
-    it("sets props.wallet.entropy when mounted", () => {
-        expect(createWrapper().vm.$data.wallet.entropy).toContain(walletDummy.entropy);
+    it("renders the passphrase in a grid", async () => {
+        const wrapper = await mountWallet();
+
+        expect(wrapper.findAll(".passphrase-grid > div")).toHaveLength(walletDummy.passphrase.split(" ").length);
     });
 
-    it("should redirect to the home page if the wallet identifier is not present", () => {
-        const wrapper = shallowMount(Wallet, {
-            mocks: {
-                $router: {
-                    push: jest.fn(),
-                },
-            },
-            stubs: {
-                qrcode: true,
-            },
-        });
+    it("redirects to the home page if the wallet is not present", async () => {
+        const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
 
-        expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1);
-        expect(wrapper.vm.$router.push).toBeCalledWith("/");
+        const router = createWalletRouter();
+
+        await mount(Wallet, { global: { plugins: [router] } });
+        await flushPromises();
+
+        expect(router.currentRoute.value.name).toBe("home");
+
+        consoleSpy.mockRestore();
     });
 });

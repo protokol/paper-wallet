@@ -19,7 +19,7 @@
                             <button
                                 id="address-copy"
                                 class="print-ignore text-gray-500 ml-3 focus:outline-none"
-                                @click="copy('#wallet-address', 'isAddressCopying')"
+                                @click="copyAddress()"
                             >
                                 <svg
                                     width="12px"
@@ -46,7 +46,7 @@
                             <button
                                 id="passphrase-copy"
                                 class="print-ignore text-gray-500 ml-3 focus:outline-none"
-                                @click="copy('#wallet-passphrase', 'isPassphraseCopying')"
+                                @click="copyPassphrase()"
                             >
                                 <svg
                                     width="12px"
@@ -65,7 +65,7 @@
                         <div class="passphrase-grid mt-2">
                             <div
                                 v-for="(word, index) in passphraseWords"
-                                :key="word"
+                                :key="`${word}-${index}`"
                                 class="relative py-1 px-2 border border-gray-300 rounded text-center"
                             >
                                 <span>{{ word }}</span>
@@ -120,118 +120,118 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
+import { computed, onMounted, ref, type Ref } from "vue";
+import { useRouter } from "vue-router";
 import html2canvas from "html2canvas";
-import Component from "vue-class-component";
-import { Prop, Watch } from "vue-property-decorator";
 import { config } from "@/config";
-import { IWallet } from "@/interfaces";
+import type { IWallet } from "@/interfaces";
 
-@Component
-export default class Wallet extends Vue {
-    private wallet: IWallet = null;
-    private isAddressCopying: boolean = false;
-    private isPassphraseCopying: boolean = false;
-    private isSaving: boolean = false;
+const router = useRouter();
 
-    public mounted() {
-        try {
-            this.wallet = JSON.parse(this.$route.params.wallet);
-        } catch {
-            this.$router.push("/");
+const wallet = ref<IWallet | null>(null);
+const isAddressCopying = ref(false);
+const isPassphraseCopying = ref(false);
+const isSaving = ref(false);
+
+const name = computed(() => config.getName());
+const date = computed(() =>
+    new Date().toLocaleDateString(undefined, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    }),
+);
+const network = computed(() => {
+    const network = config.getNetwork();
+    const name = config.getName();
+
+    return name === "Custom"
+        ? ` | Prefix ${config.getAddressPrefix()} - WIF ${config.getWIF()}`
+        : ` | ${network.charAt(0).toUpperCase() + network.slice(1)}`;
+});
+const codeForAddress = computed(() => JSON.stringify({ address: wallet.value?.address }));
+const codeForPassphrase = computed(() => JSON.stringify({ passphrase: wallet.value?.passphrase }));
+const passphraseWords = computed(() => (wallet.value?.passphrase ?? "").split(" "));
+
+const print = (): void => {
+    window.print();
+};
+
+const animate = (flag: Ref<boolean>): void => {
+    flag.value = true;
+    setTimeout(() => (flag.value = false), 1000);
+};
+
+const copyAddress = async (): Promise<void> => {
+    if (!wallet.value) {
+        return;
+    }
+
+    await navigator.clipboard.writeText(wallet.value.address);
+    animate(isAddressCopying);
+};
+
+const copyPassphrase = async (): Promise<void> => {
+    if (!wallet.value) {
+        return;
+    }
+
+    await navigator.clipboard.writeText(wallet.value.passphrase);
+    animate(isPassphraseCopying);
+};
+
+const save = (): void => {
+    const details = document.querySelector<HTMLElement>("#wallet-details");
+
+    if (!details || !wallet.value) {
+        return;
+    }
+
+    /* Hide the icons so they don't show up in the image */
+    const address = document.querySelector<HTMLElement>("#address-copy");
+    const passphrase = document.querySelector<HTMLElement>("#passphrase-copy");
+
+    address?.classList.add("hidden");
+    passphrase?.classList.add("hidden");
+
+    html2canvas(details, {
+        x: 150,
+        y: 430,
+        scrollX: 0,
+        scrollY: 0,
+        width: 737,
+        height: wallet.value.entropy ? 800 : 615,
+        windowWidth: 1024,
+        windowHeight: 800,
+    }).then((canvas) => {
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/jpeg");
+        link.download = `ark-paper-wallet-${wallet.value?.address}.jpg`;
+        link.click();
+
+        animate(isSaving);
+    });
+
+    address?.classList.remove("hidden");
+    passphrase?.classList.remove("hidden");
+};
+
+onMounted(() => {
+    try {
+        const serialized = window.history.state?.wallet;
+
+        if (typeof serialized === "string") {
+            wallet.value = JSON.parse(serialized) as IWallet;
+            return;
         }
+
+        router.push("/");
+    } catch {
+        router.push("/");
     }
-
-    get name(): string {
-        return config.getName();
-    }
-
-    get date(): string {
-        return new Date().toLocaleDateString(undefined, {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        });
-    }
-
-    get network(): string {
-        const network: string = config.getNetwork();
-        const name: string = config.getName();
-
-        return name === "Custom"
-            ? ` | Prefix ${config.getAddressPrefix()} - WIF ${config.getWIF()}`
-            : ` | ${network.charAt(0).toUpperCase() + network.slice(1)}`;
-    }
-
-    get codeForAddress() {
-        return JSON.stringify({ address: this.wallet.address });
-    }
-
-    get codeForPassphrase() {
-        return JSON.stringify({ passphrase: this.wallet.passphrase });
-    }
-
-    get passphraseWords() {
-        return this.wallet.passphrase.split(" ");
-    }
-
-    public print() {
-        window.print();
-    }
-
-    public copy(selector, copyClass) {
-        const element = document.querySelector(selector);
-        element.setAttribute("type", "text");
-        // @ts-ignore
-        element.select();
-        try {
-            document.execCommand("copy");
-            // copied
-        } catch (err) {
-            // not copied
-        }
-        element.setAttribute("type", "hidden");
-        window.getSelection().removeAllRanges();
-
-        this.animate(copyClass);
-    }
-
-    public save() {
-        /* Hide the icons so they don't show up in the image */
-        const address = document.querySelector("#address-copy");
-        const passphrase = document.querySelector("#passphrase-copy");
-        address.classList.add("hidden");
-        passphrase.classList.add("hidden");
-
-        html2canvas(document.querySelector("#wallet-details"), {
-            x: 150,
-            y: 430,
-            scrollX: 0,
-            scrollY: 0,
-            width: 737,
-            height: this.wallet.entropy ? 800 : 615,
-            windowWidth: 1024,
-            windowHeight: 800,
-        }).then((canvas) => {
-            const link = document.createElement("a");
-            link.href = canvas.toDataURL("image/jpeg");
-            link.download = `ark-paper-wallet-${this.wallet.address}.jpg`;
-            link.click();
-
-            this.animate("isSaving");
-        });
-
-        address.classList.remove("hidden");
-        passphrase.classList.remove("hidden");
-    }
-
-    private animate(key: string): void {
-        this[key] = true;
-        setTimeout(() => (this[key] = false), 1000);
-    }
-}
+});
 </script>
 
 <style>

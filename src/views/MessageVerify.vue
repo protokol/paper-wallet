@@ -25,7 +25,7 @@
                 id="message-signature"
             />
 
-            <button class="primary-action-button mb-5" @click.prevent="verifyMessage">Verify</button>
+            <button class="primary-action-button mb-5" @click.prevent="verifyMessageAction">Verify</button>
         </div>
 
         <div class="flex flex-col items-center">
@@ -38,50 +38,41 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
+<script setup lang="ts">
+import { ref } from "vue";
 import Alert from "@/components/Alert.vue";
-import { signMessage, verifyMessage } from "../message";
+import { verifyMessage } from "@/message";
 
-@Component({ components: { Alert } })
-export default class MessageVerify extends Vue {
-    public message: string | null = null;
-    public publicKey: string | null = null;
-    public signature: string | null = null;
+const message = ref("");
+const publicKey = ref("");
+const signature = ref("");
+const isValid = ref<boolean | null>(null);
+const errorText = ref<string | null>(null);
 
-    public isValid: boolean | null = null;
-    public errorText: string | null = null;
-
-    public verifyMessage(): void {
-        if (!this.message) {
-            this.errorText = "Please Fill out the Message.";
-            return;
-        }
-
-        if (!this.publicKey) {
-            this.errorText = "Please Fill out the PublicKey.";
-            return;
-        }
-
-        if (!this.signature) {
-            this.errorText = "Please Fill out the Signature.";
-            return;
-        }
-
-        this.errorText = null;
-
-        try {
-            this.isValid = verifyMessage({
-                message: this.message,
-                publicKey: this.publicKey,
-                signature: this.signature,
-            });
-        } catch (error) {
-            this.isValid = false;
-        }
+const verifyMessageAction = (): void => {
+    if (!message.value) {
+        errorText.value = "Please Fill out the Message.";
+        return;
     }
-}
+
+    if (!publicKey.value) {
+        errorText.value = "Please Fill out the PublicKey.";
+        return;
+    }
+
+    if (!signature.value) {
+        errorText.value = "Please Fill out the Signature.";
+        return;
+    }
+
+    errorText.value = null;
+
+    isValid.value = verifyMessage({
+        message: message.value,
+        publicKey: publicKey.value,
+        signature: signature.value,
+    });
+};
 </script>
 
 <style>

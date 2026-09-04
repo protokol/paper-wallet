@@ -1,51 +1,65 @@
-import { entropyToMnemonic, mnemonicToEntropy } from "bip39";
-import secp256k1 from "secp256k1";
-import RIPEMD160 from "ripemd160";
-import { sync } from "simple-sha256";
-import { Buffer } from "buffer/";
-import wif from "wif";
-import bs58check from "bs58check";
+import { secp256k1 } from "@noble/curves/secp256k1";
+import { sha256 } from "@noble/hashes/sha2";
+import { ripemd160 } from "@noble/hashes/legacy";
+import { bytesToHex, hexToBytes, utf8ToBytes } from "@noble/hashes/utils";
+import { createBase58check } from "@scure/base";
+import { entropyToMnemonic, mnemonicToEntropy, validateMnemonic as validateBIP39Mnemonic } from "@scure/bip39";
+import { wordlist } from "@scure/bip39/wordlists/english";
 import { config } from "./config";
-import { IWallet } from "./interfaces";
+import type { IWallet } from "./interfaces";
 
-const getAddress = (publicKey: string): string => {
-    const buffer = Buffer.from(new RIPEMD160().update(Buffer.from(publicKey, "hex")).digest("hex"), "hex");
-    const payload = Buffer.alloc(21);
+// Historical compatibility note: the previously used bs58check implementation
+// checksumed with a single SHA-256 round. Keep it to stay compatible with
+// wallets that were generated (and fixtures that were recorded) by the old stack.
+const base58check = createBase58check(sha256);
 
-    payload.writeUInt8(config.getAddressPrefix(), 0);
-    buffer.copy(payload, 1);
+const getPublicKey = (privateKey: Uint8Array): string => bytesToHex(secp256k1.getPublicKey(privateKey, true));
 
-    return bs58check.encode(payload);
+const getAddress = (publicKeyHex: string): string => {
+    const payload = new Uint8Array(21);
+    payload[0] = config.getAddressPrefix();
+    payload.set(ripemd160(hexToBytes(publicKeyHex)), 1);
+
+    return base58check.encode(payload);
 };
 
-const getPublicKey = (privateKey: Buffer): string => {
-    return Buffer.from(secp256k1.publicKeyCreate(privateKey)).toString("hex");
+const getWIF = (privateKey: Uint8Array): string => {
+    const payload = new Uint8Array(34);
+    payload[0] = config.getWIF();
+    payload.set(privateKey, 1);
+    payload[33] = 0x01;
+
+    return base58check.encode(payload);
 };
 
-const getWIF = (privateKey: Buffer): string => {
-    // @ts-ignore - It expects a node.js Buffer but the browser Buffer has all methods we need
-    return wif.encode(config.getWIF(), privateKey, true);
+export const validateMnemonic = (mnemonic: string): boolean =>
+    validateBIP39Mnemonic(mnemonic.trim().split(/\s+/).join(" "), wordlist);
+
+export const getEntropy = (mnemonic: string): string | undefined => {
+    if (!validateMnemonic(mnemonic)) {
+        return undefined;
+    }
+
+    return bytesToHex(mnemonicToEntropy(mnemonic, wordlist));
 };
 
-export const walletFromBIP39 = (passphrase: string) => {
-    const privateKey: Buffer = Buffer.from(sync(passphrase), "hex");
-    const publicKey: string = getPublicKey(privateKey);
+export const walletFromBIP39 = (passphrase: string): IWallet => {
+    const privateKey = sha256(utf8ToBytes(passphrase));
+    const publicKey = getPublicKey(privateKey);
 
-    const wallet: IWallet = {
+    return {
         passphrase,
         address: getAddress(publicKey),
         publicKey,
         wif: getWIF(privateKey),
-        entropy: undefined,
+        entropy: getEntropy(passphrase),
     };
+};
 
-    try {
-        wallet.entropy = mnemonicToEntropy(passphrase);
-    } catch (error) {
-        wallet.entropy = undefined;
-    }
+export const walletFromEntropy = (entropy: Uint8Array | number[]): IWallet => {
+    const bytes = Uint8Array.from(entropy);
+    const wallet = walletFromBIP39(entropyToMnemonic(bytes, wordlist));
+    wallet.entropy = bytesToHex(bytes);
 
     return wallet;
 };
-
-export const walletFromEntropy = (entropy) => walletFromBIP39(entropyToMnemonic(entropy));

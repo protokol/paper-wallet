@@ -14,76 +14,101 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
-import { Generator } from "more-entropy";
-import { randomBytes } from "crypto";
-import Spinner from "vue-simple-spinner";
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import Spinner from "@/components/Spinner.vue";
 import { walletFromEntropy } from "@/crypto";
-import { IWallet } from "@/interfaces";
 
-@Component({
-    components: {
-        Spinner,
-    },
-})
-export default class WalletFromEntropy extends Vue {
-    public entropy: number[] = [];
-    public entropyCurrent: number | null = null;
-    public entropyProgress: Record<string, string | number> | null = {};
-    public entropyTimer: NodeJS.Timeout | null = null;
+const router = useRouter();
 
-    public mounted(): void {
-        this.entropyTimer = setInterval(this.generateEntropyProgress, 100);
+const entropyProgress = ref({ title: "", subtitle: "" });
 
-        new Generator().generate(2048, (values) => {
-            this.entropy = values.concat(Array.from(randomBytes(256)));
+let entropyTimer: ReturnType<typeof setInterval> | null = null;
 
-            this.generateWallet();
+const collectValues = (count: number, callback: (values: number[]) => void): void => {
+    const values: number[] = [];
+
+    const fill = (): void => {
+        const chunk = Math.min(64, count - values.length);
+        const random = new Uint8Array(chunk);
+        crypto.getRandomValues(random);
+        values.push(...Array.from(random));
+
+        if (values.length < count) {
+            window.setTimeout(fill, 10);
+        } else {
+            callback(values);
+        }
+    };
+
+    fill();
+};
+
+const generateWallet = (entropy: number[]): void => {
+    try {
+        router.push({
+            name: "wallet",
+            state: { wallet: JSON.stringify(walletFromEntropy(shuffle(entropy).slice(0, 16))) },
         });
-    }
-
-    public generateWallet(): void {
-        try {
-            this.$router.push({
-                name: "wallet",
-                params: { wallet: JSON.stringify(walletFromEntropy(this.shuffle(this.entropy).slice(0, 16))) },
-            });
-        } catch (error) {
-            // invalid passphrase, give some error indicator
-        } finally {
-            clearInterval(this.entropyTimer);
+    } catch {
+        // invalid passphrase, give some error indicator
+        if (entropyTimer) {
+            clearInterval(entropyTimer);
         }
     }
+};
 
-    private shuffle(items: number[]): number[] {
-        for (let i = items.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [items[i], items[j]] = [items[j], items[i]];
-        }
-
-        return items;
+const shuffle = (items: number[]): number[] => {
+    for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
     }
 
-    private generateEntropyProgress(): void {
-        let value: string = this.numberBetween(1, 100).toString();
+    return items;
+};
 
-        while (value.length < 3) {
-            value = "0" + value;
-        }
+const generateEntropyProgress = (): void => {
+    let value = numberBetween(1, 100).toString();
 
-        this.entropyProgress = {
-            title: randomBytes(20).toString("hex").substring(0, 1).toUpperCase(),
-            subtitle: value,
-        };
+    while (value.length < 3) {
+        value = "0" + value;
     }
 
-    private numberBetween(min: number, max: number): number {
-        return Math.floor(Math.random() * (max - min + 1) + min);
+    entropyProgress.value = {
+        title: firstRandomHexCharacter().toUpperCase(),
+        subtitle: value,
+    };
+};
+
+const firstRandomHexCharacter = (): string => {
+    const random = new Uint8Array(1);
+    crypto.getRandomValues(random);
+    const hex = random[0].toString(16);
+
+    return hex.charAt(0);
+};
+
+const numberBetween = (min: number, max: number): number => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+onMounted(() => {
+    entropyTimer = setInterval(generateEntropyProgress, 100);
+
+    collectValues(2048, (values) => {
+        const randomBytes = new Uint8Array(256);
+        crypto.getRandomValues(randomBytes);
+
+        generateWallet(values.concat(Array.from(randomBytes)));
+    });
+});
+
+onBeforeUnmount(() => {
+    if (entropyTimer) {
+        clearInterval(entropyTimer);
     }
-}
+});
 </script>
 
 <style>

@@ -36,76 +36,54 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { config } from "@/config";
-import { Watch } from "vue-property-decorator";
 import Modal from "@/components/Modal.vue";
 
-@Component({
-    components: {
-        Modal,
-    },
-})
-export default class App extends Vue {
-    private isOpen: boolean = false;
-    private isHome: boolean = true;
-    private isGenerating: boolean = false;
-    private network: string | null = null;
+const route = useRoute();
+const router = useRouter();
 
-    @Watch("$route")
-    public onPropertyChanged(value: string, oldValue: string): void {
-        this.isHomeRoute();
-        this.isEntropyRoute();
-        this.refreshNetwork();
-    }
+const isOpen = ref(false);
 
-    public mounted(): void {
-        this.isHomeRoute();
-        this.refreshNetwork();
-    }
+const isHome = computed(() => route.name === "home");
+const isGenerating = computed(() => route.name === "wallet:entropy");
+const network = ref<string | null>(null);
 
-    public backToHome(): void {
-        this.$router.push({ name: "home" });
-    }
+const refreshNetwork = (): void => {
+    const networkName = config.getNetwork();
+    const name = config.getName();
 
-    public openSettings(): void {
-        this.isOpen = true;
-    }
+    network.value =
+        name === "Custom" ? name : `${name} | ${networkName.charAt(0).toUpperCase() + networkName.slice(1)}`;
+};
 
-    public closeSettings(): void {
-        this.isOpen = false;
-        this.refreshNetwork();
-    }
+const backToHome = (): void => {
+    router.push({ name: "home" });
+};
 
-    private refreshNetwork(): void {
-        const network: string = config.getNetwork();
-        const name: string = config.getName();
+const openSettings = (): void => {
+    isOpen.value = true;
+};
 
-        this.network =
-            name === "Custom" ? `${name}` : `${name} | ${network.charAt(0).toUpperCase() + network.slice(1)}`;
-    }
+const closeSettings = (): void => {
+    isOpen.value = false;
+    refreshNetwork();
+};
 
-    private isHomeRoute(): void {
-        this.isHome = this.$router.currentRoute.name === "home";
-    }
-
-    private isEntropyRoute(): void {
-        this.isGenerating = this.$router.currentRoute.name === "entropy";
-    }
-}
+onMounted(() => refreshNetwork());
 </script>
 
-<style lang="stylus">
+<style>
 #content {
-    margin-top 2%;
-    background-image: url('assets/img/background.svg');
+    margin-top: 2%;
+    background-image: url("assets/img/background.svg");
     background-size: 34%;
     background-position: center top;
 }
 
 .underline-none {
- text-decoration none;
+    text-decoration: none;
 }
 </style>

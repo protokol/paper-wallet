@@ -14,11 +14,11 @@
                         <div class="inline-block relative w-full sm:w-4/5 mr-3">
                             <select
                                 v-model="selectedToken"
-                                class="hover:border-gray-500 focus:outline-none focus:shadow-outline container-inputs"
+                                class="hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 container-inputs"
                             >
-                                <option v-for="token in tokens" :value="token.value" :key="token.label">{{
-                                    token.label
-                                }}</option>
+                                <option v-for="token in tokens" :value="token.value" :key="token.label">
+                                    {{ token.label }}
+                                </option>
                             </select>
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -76,76 +76,74 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
 import { config } from "@/config";
-import { IToken, ITokenNetwork } from "@/interfaces";
 import Alert from "@/components/Alert.vue";
 
-@Component({ components: { Alert } })
-export default class Modal extends Vue {
-    @Prop({ required: true }) public isOpen: boolean;
-
-    public tokens: Array<{ label: string; value: { token: string; network: string } }> = [];
-    public selectedToken: { token: string; network: string } = {
-        token: "protokol",
-        network: "devnet",
-    };
-    public customAddressPrefix: number | null = null;
-    public customWIF: number | null = null;
-    public useCustom: boolean = false;
-    public error: string | null = null;
-
-    public mounted(): void {
-        for (const token of Object.values(config.getTokens())) {
-            for (const [network, details] of Object.entries(token.networks)) {
-                this.tokens.push({
-                    label: `${token.name} | ${network.charAt(0).toUpperCase() + network.slice(1)}`,
-                    value: { token: token.name, network },
-                });
-            }
-        }
-
-        this.useCustom = config.getName() === "Custom";
-
-        if (this.useCustom) {
-            this.customAddressPrefix = config.getAddressPrefix();
-            this.customWIF = config.getWIF();
-        }
-
-        this.selectedToken = this.tokens[0].value;
-    }
-
-    private saveConfigFromNetwork(): void {
-        config.setName(this.selectedToken.token);
-        config.setToken(this.selectedToken.token.toLowerCase());
-        config.setNetwork(this.selectedToken.network);
-
-        this.close();
-    }
-
-    private saveConfigFromCustom(): void {
-        if (this.customAddressPrefix && this.customWIF) {
-            config.setName("Custom");
-            config.setAddressPrefix(this.customAddressPrefix);
-            config.setWIF(this.customWIF);
-
-            this.close();
-        } else {
-            this.error = "Please Fill out the Address Prefix and Wif.";
-        }
-    }
-
-    private close(): void {
-        this.$emit("close");
-    }
-
-    private toggleCustom(value: boolean): void {
-        this.useCustom = value;
-    }
+interface ITokenOption {
+    label: string;
+    value: { token: string; network: string };
 }
+
+defineProps<{ isOpen: boolean }>();
+
+const emit = defineEmits<{ close: [] }>();
+
+const tokens = ref<ITokenOption[]>([]);
+const selectedToken = ref<ITokenOption["value"]>({ token: "protokol", network: "devnet" });
+const customAddressPrefix = ref<number | null>(null);
+const customWIF = ref<number | null>(null);
+const useCustom = ref(false);
+const error = ref<string | null>(null);
+
+onMounted(() => {
+    for (const token of Object.values(config.getTokens())) {
+        for (const network of Object.keys(token.networks)) {
+            tokens.value.push({
+                label: `${token.name} | ${network.charAt(0).toUpperCase() + network.slice(1)}`,
+                value: { token: token.name, network },
+            });
+        }
+    }
+
+    useCustom.value = config.getName() === "Custom";
+
+    if (useCustom.value) {
+        customAddressPrefix.value = config.getAddressPrefix();
+        customWIF.value = config.getWIF();
+    }
+
+    selectedToken.value = tokens.value[0].value;
+});
+
+const saveConfigFromNetwork = (): void => {
+    config.setName(selectedToken.value.token);
+    config.setToken(selectedToken.value.token.toLowerCase());
+    config.setNetwork(selectedToken.value.network);
+
+    close();
+};
+
+const saveConfigFromCustom = (): void => {
+    if (customAddressPrefix.value && customWIF.value) {
+        config.setName("Custom");
+        config.setAddressPrefix(customAddressPrefix.value);
+        config.setWIF(customWIF.value);
+
+        close();
+    } else {
+        error.value = "Please Fill out the Address Prefix and Wif.";
+    }
+};
+
+const close = (): void => {
+    emit("close");
+};
+
+const toggleCustom = (value: boolean): void => {
+    useCustom.value = value;
+};
 </script>
 
 <style>

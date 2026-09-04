@@ -1,23 +1,28 @@
-import secp256k1 from "secp256k1";
-import { sync } from "simple-sha256";
-import { Buffer } from "buffer/";
+import { secp256k1 } from "@noble/curves/secp256k1";
+import { sha256 } from "@noble/hashes/sha2";
+import { bytesToHex, hexToBytes, utf8ToBytes } from "@noble/hashes/utils";
 
-export const signMessage = (message: string, passphrase: string) => {
-    const privateKey = Buffer.from(sync(passphrase), "hex");
+export interface ISignedMessage {
+    message: string;
+    publicKey: string;
+    signature: string;
+}
+
+export const signMessage = (message: string, passphrase: string): ISignedMessage => {
+    const privateKey = sha256(utf8ToBytes(passphrase));
+    const signature = secp256k1.sign(sha256(utf8ToBytes(message)), privateKey);
 
     return {
-        publicKey: Buffer.from(secp256k1.publicKeyCreate(privateKey)).toString("hex"),
-        signature: Buffer.from(
-            secp256k1.signatureExport(secp256k1.ecdsaSign(Buffer.from(sync(message), "hex"), privateKey).signature),
-        ).toString("hex"),
+        publicKey: bytesToHex(secp256k1.getPublicKey(privateKey, true)),
+        signature: signature.toDERHex(),
         message,
     };
 };
 
-export const verifyMessage = ({ message, publicKey, signature }) => {
-    return secp256k1.ecdsaVerify(
-        secp256k1.signatureImport(Uint8Array.from(Buffer.from(signature, "hex"))),
-        Buffer.from(sync(message), "hex"),
-        Buffer.from(publicKey, "hex"),
-    );
+export const verifyMessage = ({ message, publicKey, signature }: ISignedMessage): boolean => {
+    try {
+        return secp256k1.verify(hexToBytes(signature), sha256(utf8ToBytes(message)), hexToBytes(publicKey));
+    } catch {
+        return false;
+    }
 };

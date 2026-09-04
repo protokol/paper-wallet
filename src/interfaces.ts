@@ -3,7 +3,7 @@ export interface IWallet {
     address: string;
     publicKey: string;
     wif: string;
-    entropy: string;
+    entropy?: string;
 }
 
 export interface ITokenNetwork {

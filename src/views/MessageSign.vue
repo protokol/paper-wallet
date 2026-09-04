@@ -17,7 +17,7 @@
                 id="message-passphrase"
             />
 
-            <button class="primary-action-button mb-5" @click.prevent="signMessage">Sign</button>
+            <button class="primary-action-button mb-5" @click.prevent="signMessageAction">Sign</button>
         </div>
 
         <div class="flex flex-col items-center" v-if="errorText">
@@ -29,51 +29,50 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { validateMnemonic } from "bip39";
+<script setup lang="ts">
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { validateMnemonic } from "@/crypto";
 import Alert from "@/components/Alert.vue";
-import { signMessage } from "../message";
+import { signMessage } from "@/message";
 
-@Component({ components: { Alert } })
-export default class MessageSign extends Vue {
-    public message: string | null = null;
-    public passphrase: string | null = null;
-    public errorText: string | null = null;
-    public showForceSign: boolean | null = null;
+const router = useRouter();
 
-    public signMessage(): void {
-        this.showForceSign = false;
+const message = ref("");
+const passphrase = ref("");
+const errorText = ref<string | null>(null);
+const showForceSign = ref(false);
 
-        if (!this.message) {
-            this.errorText = "Please Fill out the Message.";
-            return;
-        }
+const signMessageAction = (): void => {
+    showForceSign.value = false;
 
-        if (!this.passphrase) {
-            this.errorText = "Please Fill out the Passphrase.";
-            return;
-        }
-
-        if (!validateMnemonic(this.passphrase)) {
-            this.errorText = "The Passphrase does not Appear to be BIP39";
-            this.showForceSign = true;
-            return;
-        }
-
-        this.forceSignMessage();
+    if (!message.value) {
+        errorText.value = "Please Fill out the Message.";
+        return;
     }
 
-    public forceSignMessage(): void {
-        this.errorText = null;
-
-        this.$router.push({
-            name: "message",
-            params: { message: JSON.stringify(signMessage(this.message, this.passphrase)) },
-        });
+    if (!passphrase.value) {
+        errorText.value = "Please Fill out the Passphrase.";
+        return;
     }
-}
+
+    if (!validateMnemonic(passphrase.value)) {
+        errorText.value = "The Passphrase does not Appear to be BIP39";
+        showForceSign.value = true;
+        return;
+    }
+
+    forceSignMessage();
+};
+
+const forceSignMessage = (): void => {
+    errorText.value = null;
+
+    router.push({
+        name: "message",
+        state: { message: JSON.stringify(signMessage(message.value, passphrase.value)) },
+    });
+};
 </script>
 
 <style>
@@ -84,6 +83,7 @@ input[type="password"] {
     @apply bg-transparent py-2 border-t-0 border-l-0 border-r-0 border-b-2 border-gray-500 rounded-none;
     outline-color: #429ef5;
 }
+
 .custom-border {
     @apply border;
     border-color: #429ef5;

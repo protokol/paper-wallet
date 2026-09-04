@@ -1,16 +1,13 @@
 import "@/assets/css/tailwind.css";
 
-import Vue from "vue";
 import VueQrcode from "@chenfengyuan/vue-qrcode";
+import { createApp } from "vue";
+import { registerSW } from "virtual:pwa-register";
 import App from "./App.vue";
 import router from "./router";
-import "./registerServiceWorker";
 
-Vue.component(VueQrcode.name, VueQrcode);
+if (import.meta.env.PROD) {
+    registerSW({ immediate: true });
+}
 
-Vue.config.productionTip = false;
-
-new Vue({
-    router,
-    render: (h) => h(App),
-}).$mount("#app");
+createApp(App).use(router).component("qrcode", VueQrcode).mount("#app");

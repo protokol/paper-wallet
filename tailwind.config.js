@@ -1,18 +1,8 @@
-module.exports = {
-    purge: {
-        enabled: true,
-        content: ["./src/**/*.vue"],
-        defaultExtractor: (content) => {
-            const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
-            const innerMatches = content.match(/[^<>"'`\s.()]*[^<>"'`\s.():]/g) || [];
-
-            return broadMatches.concat(innerMatches);
-        },
-        whitelist: ["html", "body"],
-    },
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: ["./index.html", "./src/**/*.{vue,ts}"],
     theme: {
         extend: {},
     },
-    variants: {},
     plugins: [],
 };

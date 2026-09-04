@@ -8,11 +8,11 @@
 There are two ways you can run the Paper Wallet locally:
 
 1. Download the latest `dist.zip` release, extract the contents and open the `index.html` file in your browser.
-2. Clone the repo, install the requirements and dependencies and run `yarn serve` to run a local version.
+2. Clone the repo and run `pnpm dev` to run a local version.
 
 ## Adding Networks
 
-By default, the Paper Wallet uses the ARK mainnet when generating a wallet.
+By default, the Paper Wallet uses the Protokol mainnet when generating a wallet.
 However, it comes bundles with multiple network options that you can switch to, making it usable on for example devnet and bridgechains.
 If you run a public bridgechain, you can have your network added by creating a PR that adds the `name`, `pubkeyHash` and `WIF` to the existing list of networks.
 
@@ -26,8 +26,8 @@ If the network you want to use is not listed in the dropdown, you can switch to 
 
 The Paper Wallet has the following requirements:
 
--   [Node](https://nodejs.org/)
--   [Yarn (Optional but recommended)](https://yarnpkg.com)
+- [Node.js](https://nodejs.org/) 20 or higher
+- [pnpm](https://pnpm.io)
 
 ### Commands
 
@@ -35,26 +35,29 @@ The Paper Wallet has the following requirements:
 
 ```bash
 # Install dependencies
-yarn install
+pnpm install
 
 # Compiles and hot-reloads for development
-yarn run serve
+pnpm dev
 
 # Compiles and minifies for production
-yarn run build
+pnpm build
+
+# Typecheck
+pnpm typecheck
+
+# Lint the code
+pnpm lint
 
 # Run your tests
-yarn run test:e2e
-yarn run test:unit
-
-# Lints and fixes files
-yarn run lint
+pnpm test:e2e
+pnpm test:unit
 
 # Generate release zips
-yarn run task:release
+pnpm task:release
 
 # Deploy on GitHub pages
-yarn run task:deploy
+pnpm task:deploy
 ```
 
 </details>
@@ -64,6 +67,7 @@ yarn run task:deploy
 If you discover a security vulnerability within this package, please send an e-mail to info@protokol.com. All security vulnerabilities will be promptly addressed.
 
 ## License
+
 This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/), under the following terms:
 
 #### Attribution
@@ -81,6 +85,5 @@ If you remix, transform, or build upon the material, you must distribute your co
 #### Legal code
 
 Read the rest of the obligatory [license legal code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
-
 
 [CC BY-NC-SA 4.0](LICENSE) © [Protokol](https://protokol.com)

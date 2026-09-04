@@ -15,22 +15,29 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import type { ISignedMessage } from "@/message";
 
-@Component
-export default class Message extends Vue {
-    private message: { message: string; publicKey: string; signature: string } | null = null;
+const router = useRouter();
 
-    public mounted() {
-        try {
-            this.message = JSON.parse(this.$route.params.message);
-        } catch {
-            this.$router.push("/");
+const message = ref<ISignedMessage | null>(null);
+
+onMounted(() => {
+    try {
+        const serialized = window.history.state?.message;
+
+        if (typeof serialized === "string") {
+            message.value = JSON.parse(serialized) as ISignedMessage;
+            return;
         }
+
+        router.push("/");
+    } catch {
+        router.push("/");
     }
-}
+});
 </script>
 
 <style>

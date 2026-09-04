@@ -9,5 +9,5 @@ mkdir ./releases
 
 # for production
 export RELEASE_TYPE="dist"
-yarn build
+pnpm build
 zip -r ./releases/dist.zip ./dist

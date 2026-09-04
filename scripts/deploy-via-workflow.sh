@@ -5,7 +5,7 @@ set -e
 
 # build
 export RELEASE_TYPE="gh-pages"
-yarn build
+pnpm build
 
 # navigate into the build output directory
 cd dist
