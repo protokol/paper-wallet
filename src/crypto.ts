@@ -1,7 +1,7 @@
-import { secp256k1 } from "@noble/curves/secp256k1";
-import { sha256 } from "@noble/hashes/sha2";
-import { ripemd160 } from "@noble/hashes/legacy";
-import { bytesToHex, hexToBytes, utf8ToBytes } from "@noble/hashes/utils";
+import { secp256k1 } from "@noble/curves/secp256k1.js";
+import { sha256 } from "@noble/hashes/sha2.js";
+import { ripemd160 } from "@noble/hashes/legacy.js";
+import { bytesToHex, hexToBytes, utf8ToBytes } from "@noble/hashes/utils.js";
 import { createBase58check } from "@scure/base";
 import { entropyToMnemonic, mnemonicToEntropy, validateMnemonic as validateBIP39Mnemonic } from "@scure/bip39";
 import { wordlist } from "@scure/bip39/wordlists/english";
