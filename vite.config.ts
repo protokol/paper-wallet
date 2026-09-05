@@ -1,10 +1,9 @@
-/// <reference types="vitest/config" />
 import { fileURLToPath, URL } from "node:url";
 import vue from "@vitejs/plugin-vue";
 import autoprefixer from "autoprefixer";
 import tailwind from "tailwindcss";
 import { VitePWA } from "vite-plugin-pwa";
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 
 let base = "/";
 
