@@ -18,7 +18,7 @@
                             <span>Address</span>
                             <button
                                 id="address-copy"
-                                class="print-ignore text-gray-500 ml-3 focus:outline-none"
+                                class="print-ignore text-gray-500 ml-3 focus:outline-hidden"
                                 @click="copyAddress()"
                             >
                                 <svg
@@ -45,7 +45,7 @@
                             <span>Passphrase</span>
                             <button
                                 id="passphrase-copy"
-                                class="print-ignore text-gray-500 ml-3 focus:outline-none"
+                                class="print-ignore text-gray-500 ml-3 focus:outline-hidden"
                                 @click="copyPassphrase()"
                             >
                                 <svg
@@ -66,7 +66,7 @@
                             <div
                                 v-for="(word, index) in passphraseWords"
                                 :key="`${word}-${index}`"
-                                class="relative py-1 px-2 border border-gray-300 rounded text-center"
+                                class="relative py-1 px-2 border border-gray-300 rounded-sm text-center"
                             >
                                 <span>{{ word }}</span>
                                 <span class="passphrase-index">{{ index + 1 }}</span>
@@ -235,6 +235,7 @@ onMounted(() => {
 </script>
 
 <style>
+@reference "tailwindcss";
 .wallet-property-row {
     @apply border-b border-dashed border-gray-400 pb-6;
 }

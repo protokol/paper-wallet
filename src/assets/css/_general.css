@@ -4,16 +4,16 @@ h2,
 h3,
 h4 {
     font-family: "Lato", "Avenir", Helvetica, Arial, sans-serif;
-    @apply font-black leading-none !important;
+    @apply font-black leading-none!;
 }
 
 h1 {
-    @apply text-4xl mb-3 !important;
+    @apply text-4xl mb-3!;
 }
 
-@screen sm {
+@variant sm {
     h1 {
-        @apply text-6xl !important;
+        @apply text-6xl!;
     }
 }
 
@@ -37,7 +37,7 @@ body {
     @apply flex flex-col items-center bg-no-repeat w-full px-4;
 }
 
-@screen sm {
+@variant sm {
     #content {
         @apply px-10;
     }

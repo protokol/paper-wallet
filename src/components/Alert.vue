@@ -1,7 +1,7 @@
 <template>
     <div
         :class="type ? `alert-${type}` : 'opacity-0 hidden'"
-        class="alert block w-full rounded px-4 py-2 mt-4 text-white"
+        class="alert block w-full rounded-sm px-4 py-2 mt-4 text-white"
     >
         <div class="flex justify-between items-center text-left message font-semibold">
             <span>{{ message }}</span>

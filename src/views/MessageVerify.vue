@@ -76,6 +76,7 @@ const verifyMessageAction = (): void => {
 </script>
 
 <style>
+@reference "tailwindcss";
 /* Custom Networks */
 input[type="text"] {
     appearance: none;
