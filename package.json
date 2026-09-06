@@ -31,7 +31,7 @@
         "@scure/bip39": "^1.5.0",
         "animate.css": "^4.1.1",
         "html2canvas": "^1.4.1",
-        "tailwindcss": "^3.4.17",
+        "tailwindcss": "^4.0.0",
         "vue": "^3.5.0",
         "vue-router": "^5.0.0"
     },
