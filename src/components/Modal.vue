@@ -14,7 +14,7 @@
                         <div class="inline-block relative w-full sm:w-4/5 mr-3">
                             <select
                                 v-model="selectedToken"
-                                class="hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 container-inputs"
+                                class="hover:border-gray-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500 container-inputs"
                             >
                                 <option v-for="token in tokens" :value="token.value" :key="token.label">
                                     {{ token.label }}
@@ -147,6 +147,7 @@ const toggleCustom = (value: boolean): void => {
 </script>
 
 <style>
+@reference "tailwindcss";
 .modal-top {
     background-color: #2d2f38;
     @apply flex flex-col rounded-t-lg p-10 text-white;
@@ -169,7 +170,7 @@ const toggleCustom = (value: boolean): void => {
     @apply fixed rounded-lg overflow-auto z-10;
 }
 
-@screen sm {
+@variant sm {
     .modal-content {
         max-width: 30rem;
         @apply w-full;
@@ -191,7 +192,7 @@ const toggleCustom = (value: boolean): void => {
     @apply absolute text-white cursor-pointer;
 }
 
-@screen sm {
+@variant sm {
     /* Inputs */
     .container-inputs {
         min-width: 311px !important;
@@ -200,7 +201,7 @@ const toggleCustom = (value: boolean): void => {
 
 /* Existing Networks */
 select {
-    @apply block appearance-none w-full bg-white border border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight;
+    @apply block appearance-none w-full bg-white border border-gray-400 px-4 py-2 pr-8 rounded-sm shadow-sm leading-tight;
 }
 
 /* Custom Networks */

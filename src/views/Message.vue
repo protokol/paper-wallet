@@ -41,6 +41,7 @@ onMounted(() => {
 </script>
 
 <style>
+@reference "tailwindcss";
 .wallet-property-row {
     @apply border-b border-dashed border-gray-400 pb-6;
 }

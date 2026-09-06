@@ -112,6 +112,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
+@reference "tailwindcss";
 .entropy-container {
     height: 100px;
     position: absolute;

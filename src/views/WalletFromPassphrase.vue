@@ -5,10 +5,10 @@
                 type="text"
                 placeholder="Enter your Passphrase"
                 v-model="passphrase"
-                class="border p-4 mr-5"
+                class="border border-gray-200 p-4 mr-5"
                 id="wallet-passphrase"
             />
-            <button class="primary-action-button focus:outline-none" @click.prevent="generateWallet">Generate</button>
+            <button class="primary-action-button focus:outline-hidden" @click.prevent="generateWallet">Generate</button>
         </div>
         <div class="flex flex-col items-center" v-if="errorText">
             <Alert :message="errorText" type="error" />
@@ -53,6 +53,7 @@ const forceGenerateWallet = (): void => {
 </script>
 
 <style>
+@reference "tailwindcss";
 /* Custom Networks */
 input[type="text"] {
     appearance: none;

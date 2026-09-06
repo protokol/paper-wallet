@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from "node:url";
 import vue from "@vitejs/plugin-vue";
-import autoprefixer from "autoprefixer";
-import tailwind from "tailwindcss";
+import tailwindcss from "@tailwindcss/postcss";
 import { VitePWA } from "vite-plugin-pwa";
 import { defineConfig } from "vitest/config";
 
@@ -49,7 +48,7 @@ export default defineConfig({
     },
     css: {
         postcss: {
-            plugins: [tailwind(), autoprefixer()],
+            plugins: [tailwindcss()],
         },
     },
     test: {

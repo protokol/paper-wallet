@@ -76,6 +76,7 @@ const forceSignMessage = (): void => {
 </script>
 
 <style>
+@reference "tailwindcss";
 /* Custom Networks */
 input[type="text"],
 input[type="password"] {
