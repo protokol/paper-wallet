@@ -27,7 +27,7 @@
         "@chenfengyuan/vue-qrcode": "^2.0.0",
         "@noble/curves": "^2.0.0",
         "@noble/hashes": "^2.0.0",
-        "@scure/base": "^1.2.0",
+        "@scure/base": "^2.0.0",
         "@scure/bip39": "^1.5.0",
         "animate.css": "^4.1.1",
         "html2canvas": "^1.4.1",
