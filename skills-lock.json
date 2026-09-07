@@ -61,6 +61,12 @@
             "skillPath": "skills/git-cleanup/SKILL.md",
             "computedHash": "b3f2374ef0d876be7bfe12069f78b7adc2dea7f5accc9a961774984f9337184f"
         },
+        "improve": {
+            "source": "shadcn/improve",
+            "sourceType": "github",
+            "skillPath": "skills/improve/SKILL.md",
+            "computedHash": "39a9358732dcff385e9e4d3e60b4547856f834e54a58b35e455aa9bd49928c13"
+        },
         "planning-with-files": {
             "source": "protokol/protokol-ai",
             "sourceType": "github",
