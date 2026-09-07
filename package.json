@@ -16,6 +16,7 @@
         "lint:fix": "eslint . --fix",
         "format": "prettier --write .",
         "prepare": "husky",
+        "postinstall": "npx -y skills update -y --copy || true",
         "task:deploy": "cross-env-shell ./scripts/deploy.sh",
         "task:deploy:workflow": "cross-env-shell ./scripts/deploy-via-workflow.sh",
         "task:release": "cross-env-shell ./scripts/release.sh",
