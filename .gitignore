@@ -24,3 +24,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Agent skills (synced from protokol/protokol-ai via postinstall; see skills-lock.json)
+/.claude/skills
+/.agents/skills
