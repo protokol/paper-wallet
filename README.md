@@ -100,6 +100,7 @@ same lock, so `postinstall` refreshes them too:
 ```bash
 npx skills add obra/superpowers -a claude-code   # skip the 3 protokol-core forks
 npx skills add mattpocock/skills --skill handoff -a claude-code
+npx skills add shadcn/improve -a claude-code      # audit -> plans for cheaper models
 ```
 
 ## Security
