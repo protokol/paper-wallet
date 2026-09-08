@@ -19,9 +19,12 @@ export default defineConfig({
         VitePWA({
             registerType: "autoUpdate",
             includeAssets: ["favicon.ico", "favicon.png", "favicon.svg", "robots.txt"],
+            // NOTE: background_color and theme_color below are hand-copied duplicates of --color-page and
+            // --color-brand-600 in src/assets/css/tailwind.css. A manifest cannot read CSS custom properties,
+            // so a palette change must also update these two values and the theme-color meta in index.html.
             manifest: {
-                name: "ARK Paper Wallet",
-                short_name: "ark-paper-wallet",
+                name: "Protokol Paper Wallet",
+                short_name: "paper-wallet",
                 icons: [
                     {
                         src: "./img/icons/android-chrome-192x192.png",
@@ -36,8 +39,8 @@ export default defineConfig({
                 ],
                 start_url: "./index.html",
                 display: "standalone",
-                background_color: "#fe463a",
-                theme_color: "#fe463a",
+                background_color: "#e2e6ec",
+                theme_color: "#1a66b8",
             },
         }),
     ],
