@@ -2,6 +2,7 @@
     <div
         :class="type ? `alert-${type}` : 'opacity-0 hidden'"
         class="alert block w-full rounded-sm px-4 py-2 mt-4 text-white"
+        role="alert"
     >
         <div class="flex justify-between items-center text-left message font-semibold">
             <span>{{ message }}</span>
@@ -10,7 +11,9 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{ message: string; type?: string }>(), {
+type AlertType = "error" | "success" | "info" | "warn";
+
+withDefaults(defineProps<{ message: string; type?: AlertType }>(), {
     type: "info",
 });
 </script>
@@ -18,25 +21,24 @@ withDefaults(defineProps<{ message: string; type?: string }>(), {
 <style scoped>
 .alert {
     transition:
-        opacity,
-        hidden 0.2s ease-in,
+        opacity 0.2s ease-in,
         background-color 0.1s ease-in;
 }
 
 .alert-error {
-    background-color: #ec1b38;
+    background-color: var(--color-danger);
 }
 
 .alert-success {
-    background-color: #3bb15c;
+    background-color: var(--color-success);
 }
 
 .alert-info {
-    background-color: #2199e5;
+    background-color: var(--color-info);
 }
 
 .alert-warn {
-    background-color: #e5a721;
-    color: #b03b12;
+    background-color: var(--color-warning);
+    color: var(--color-warning-ink);
 }
 </style>

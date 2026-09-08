@@ -1,35 +1,53 @@
 <template>
-    <div class="w-full sm:w-auto">
-        <div class="flex flex-col sm:flex-row flex-wrap justify-center items-center wallet-from-passphrase mt-5">
-            <input
-                type="text"
-                placeholder="Enter your Message"
-                v-model="message"
-                class="border p-4 w-full sm:w-auto sm:mr-5 mb-5"
-                id="message-message"
-            />
+    <div class="w-full">
+        <form
+            class="mx-auto mt-5 flex w-full max-w-5xl flex-col items-stretch gap-5 sm:flex-row sm:flex-wrap sm:items-end sm:justify-center"
+            @submit.prevent="verifyMessageAction"
+        >
+            <div class="flex w-full flex-col sm:w-48">
+                <label class="field-label" for="message-message">Message</label>
+                <input
+                    id="message-message"
+                    ref="messageInput"
+                    v-model="message"
+                    v-bind="errorAttrs('message')"
+                    type="text"
+                    class="field-input"
+                    placeholder="Enter your Message"
+                />
+            </div>
 
-            <input
-                type="text"
-                placeholder="Enter your public key"
-                v-model="publicKey"
-                class="border p-4 w-full sm:w-auto sm:mr-5 mb-5"
-                id="message-publicKey"
-            />
+            <div class="flex w-full flex-col sm:w-72">
+                <label class="field-label" for="message-publicKey">Public key</label>
+                <input
+                    id="message-publicKey"
+                    ref="publicKeyInput"
+                    v-model="publicKey"
+                    v-bind="errorAttrs('publicKey')"
+                    type="text"
+                    class="field-input font-mono"
+                    placeholder="Enter your public key"
+                />
+            </div>
 
-            <input
-                type="text"
-                placeholder="Enter your Signature"
-                v-model="signature"
-                class="border p-4 w-full sm:w-auto sm:mr-5 mb-5"
-                id="message-signature"
-            />
+            <div class="flex w-full flex-col sm:w-96">
+                <label class="field-label" for="message-signature">Signature</label>
+                <input
+                    id="message-signature"
+                    ref="signatureInput"
+                    v-model="signature"
+                    v-bind="errorAttrs('signature')"
+                    type="text"
+                    class="field-input font-mono"
+                    placeholder="Enter your Signature"
+                />
+            </div>
 
-            <button class="primary-action-button mb-5" @click.prevent="verifyMessageAction">Verify</button>
-        </div>
+            <button class="primary-action-button w-full sm:w-auto" type="submit">Verify</button>
+        </form>
 
-        <div class="flex flex-col items-center">
-            <Alert :message="errorText" type="error" v-if="errorText" />
+        <div class="mx-auto flex max-w-xl flex-col items-center">
+            <Alert :id="ERROR_ID" :message="errorText" type="error" v-if="errorText" />
 
             <Alert message="The Message has been Successfully Verified." type="success" v-if="isValid === true" />
 
@@ -39,33 +57,63 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { nextTick, ref, type Ref } from "vue";
 import Alert from "@/components/Alert.vue";
 import { verifyMessage } from "@/message";
+
+type FieldName = "message" | "publicKey" | "signature";
+
+const ERROR_ID = "message-verify-error";
 
 const message = ref("");
 const publicKey = ref("");
 const signature = ref("");
 const isValid = ref<boolean | null>(null);
 const errorText = ref<string | null>(null);
+const invalidField = ref<FieldName | null>(null);
+
+const messageInput = ref<HTMLInputElement | null>(null);
+const publicKeyInput = ref<HTMLInputElement | null>(null);
+const signatureInput = ref<HTMLInputElement | null>(null);
+
+const inputs: Record<FieldName, Ref<HTMLInputElement | null>> = {
+    message: messageInput,
+    publicKey: publicKeyInput,
+    signature: signatureInput,
+};
+
+const errorAttrs = (field: FieldName): Record<string, string> =>
+    invalidField.value === field ? { "aria-invalid": "true", "aria-describedby": ERROR_ID } : {};
+
+const failWith = (field: FieldName, text: string): void => {
+    errorText.value = text;
+    invalidField.value = field;
+
+    // A validation error replaces the previous verification result. Without this reset the stale
+    // "could not be Verified" alert stays on screen next to the new one, leaving two live regions.
+    isValid.value = null;
+
+    void nextTick(() => inputs[field].value?.focus());
+};
 
 const verifyMessageAction = (): void => {
     if (!message.value) {
-        errorText.value = "Please Fill out the Message.";
+        failWith("message", "Please Fill out the Message.");
         return;
     }
 
     if (!publicKey.value) {
-        errorText.value = "Please Fill out the PublicKey.";
+        failWith("publicKey", "Please Fill out the PublicKey.");
         return;
     }
 
     if (!signature.value) {
-        errorText.value = "Please Fill out the Signature.";
+        failWith("signature", "Please Fill out the Signature.");
         return;
     }
 
     errorText.value = null;
+    invalidField.value = null;
 
     isValid.value = verifyMessage({
         message: message.value,
@@ -74,13 +122,3 @@ const verifyMessageAction = (): void => {
     });
 };
 </script>
-
-<style>
-@reference "tailwindcss";
-/* Custom Networks */
-input[type="text"] {
-    appearance: none;
-    @apply bg-transparent py-2 border-t-0 border-l-0 border-r-0 border-b-2 border-gray-500 rounded-none;
-    outline-color: #429ef5;
-}
-</style>

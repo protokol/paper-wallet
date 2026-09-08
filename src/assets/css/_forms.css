@@ -1,0 +1,40 @@
+/* The single form language for the whole app. Every labelled control — the three form views
+   and the network dialog — uses these classes so a field is the same height, the same box and
+   the same boundary colour everywhere.
+
+   The boundary is --color-line-strong (#8b95a5), 3.03:1 on --color-surface, which clears
+   WCAG 1.4.11's 3:1 floor for a non-text boundary. --color-line (#c9d1dc) is a hairline tone
+   at 1.54:1 and must never be used to bound an interactive control.
+
+   `line-height` is set explicitly: Tailwind's preflight gives inputs and selects `font: inherit`,
+   so pinning it here is what makes a <select> exactly as tall as an <input>.
+
+   There is deliberately no `:focus` colour here — the global `:focus-visible` ring in
+   _buttons.css owns focus for every element in the app. */
+
+.field-label {
+    color: var(--color-ink-muted);
+    @apply block mb-2 text-left text-sm font-semibold;
+}
+
+.field-input {
+    appearance: none;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-strong);
+    line-height: 1.5;
+    @apply block w-full rounded-sm px-4 py-2.5;
+}
+
+.field-input::placeholder {
+    color: var(--color-ink-muted);
+}
+
+/* A <select> carries the same box, plus room for the chevron rendered beside it. */
+.field-select {
+    @apply pr-8;
+}
+
+.field-hint {
+    color: var(--color-ink-muted);
+    @apply block mt-1 text-xs;
+}
