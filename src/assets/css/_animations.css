@@ -1,5 +1,5 @@
-@import "animate.css/animate.min.css";
-
-.transition {
-    transition: all 0.1s ease-in;
-}
+/* animate.css is imported once, from tailwind.css, which also imports this file.
+   Empty placeholder for app-specific keyframes.
+   There is deliberately no shared `.transition` helper: `@apply transition` picks up Tailwind's
+   built-in utility, which animates `outline-color` and fades the focus ring in from white, so
+   _buttons.css declares each button's `transition:` explicitly instead. */
