@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
+import { nextTick } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import Wallet from "@/views/Wallet.vue";
 import { walletDummy as walletDummy } from "../../__fixtures__/wallet";
@@ -27,7 +28,16 @@ const mountWallet = async () => {
     });
 };
 
+const stubClipboard = () => {
+    const writeText = vi.fn<(text: string) => Promise<void>>().mockResolvedValue(undefined);
+
+    Object.defineProperty(window.navigator, "clipboard", { value: { writeText }, configurable: true });
+
+    return writeText;
+};
+
 afterEach(() => {
+    vi.useRealTimers();
     window.history.replaceState(null, "", "/");
 });
 
@@ -52,6 +62,63 @@ describe("Wallet.vue", () => {
         const wrapper = await mountWallet();
 
         expect(wrapper.findAll(".passphrase-grid > div")).toHaveLength(walletDummy.passphrase.split(" ").length);
+    });
+
+    it("passes the bare address to the address QR", async () => {
+        const wrapper = await mountWallet();
+        const value = wrapper.findAll("qrcode-stub")[0].attributes("value");
+
+        expect(value).toBe(walletDummy.address);
+        expect(value).toBe(wrapper.find("#w-address").text());
+        expect(value).not.toContain("{");
+    });
+
+    it("passes the bare passphrase to the passphrase QR", async () => {
+        const wrapper = await mountWallet();
+        const value = wrapper.findAll("qrcode-stub")[1].attributes("value");
+
+        expect(value).toBe(walletDummy.passphrase);
+        expect(value).not.toContain("{");
+    });
+
+    it("labels the copy buttons", async () => {
+        const wrapper = await mountWallet();
+
+        expect(wrapper.find("#address-copy").attributes("aria-label")).toBeTruthy();
+        expect(wrapper.find("#passphrase-copy").attributes("aria-label")).toBeTruthy();
+    });
+
+    /* The installed animate.css is 4.x, where every class carries the `animate__` prefix. The
+       unprefixed v3 names the template used to bind resolved to nothing at all. */
+    it.each(["#address-copy", "#passphrase-copy"])(
+        "wobbles %s while copying and clears the classes afterwards",
+        async (selector) => {
+            stubClipboard();
+
+            const wrapper = await mountWallet();
+
+            vi.useFakeTimers();
+
+            await wrapper.find(selector).trigger("click");
+            await vi.advanceTimersByTimeAsync(0);
+            await nextTick();
+
+            expect(wrapper.find(`${selector} svg`).classes()).toEqual(
+                expect.arrayContaining(["animate__animated", "animate__wobble"]),
+            );
+
+            await vi.advanceTimersByTimeAsync(1000);
+            await nextTick();
+
+            expect(wrapper.find(`${selector} svg`).classes()).not.toContain("animate__animated");
+            expect(wrapper.find(`${selector} svg`).classes()).not.toContain("animate__wobble");
+        },
+    );
+
+    it("renders the security notice", async () => {
+        const wrapper = await mountWallet();
+
+        expect(wrapper.text()).toContain("This passphrase is the only way to recover the funds.");
     });
 
     it("redirects to the home page if the wallet is not present", async () => {

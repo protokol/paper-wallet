@@ -4,4 +4,49 @@
 @import './_animations.css';
 @import './_general.css';
 @import './_buttons.css';
+@import './_forms.css';
 @import './_print.css';
+
+/* NOTE: @theme must sit AFTER the @import run. CSS requires @import statements to be
+   consecutive and precede all other rules; putting @theme between them makes PostCSS
+   drop every import that follows it. */
+@theme {
+    /* Brand — #429ef5 is retained as the identity blue but is DECORATIVE ONLY.
+       It must never sit behind text: white on it is 2.82:1, far below the 4.5:1 AA floor. */
+    --color-brand-50: #eef6ff;
+    --color-brand-100: #d9ebfd;
+    --color-brand-400: #7dbcf8;
+    --color-brand-500: #429ef5;
+    --color-brand-600: #1a66b8;  /* white text 5.77:1 — primary button */
+    --color-brand-700: #0f5ba3;  /* white text 6.90:1 — hover; also light-button label, 6.32:1 on brand-50 */
+    --color-brand-800: #0b4f8f;  /* white text 8.30:1 — active */
+
+    /* Neutrals */
+    --color-page: #e2e6ec;
+    --color-surface: #ffffff;
+    --color-surface-sunken: #f4f6f8;
+    --color-ink: #252f3e;         /* 13.51:1 on surface, 10.78:1 on page */
+    --color-ink-muted: #525c6b;   /* 6.77:1 on surface, 5.20:1 on page — replaces every text-gray-500 */
+    --color-line: #c9d1dc;        /* hairlines / dashed rules */
+    --color-line-strong: #8b95a5; /* input underlines */
+
+    /* Feedback — all verified against white text */
+    --color-danger: #c81432;   /* 5.83:1 */
+    --color-success: #2e7d47;  /* 5.07:1 */
+    --color-info: #12719b;     /* 5.44:1 */
+    --color-warning: #f5c451;  /* pairs with --color-warning-ink */
+    --color-warning-ink: #7c4a03; /* 4.54:1 on warning */
+
+    --color-focus: #1a66b8;
+
+    /* Tailwind v4 ships these as oklch(); html2canvas@1.4.1 cannot parse oklch and throws,
+       which breaks the wallet image export. Pin them to the classic hex values. */
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-blue-500: #3b82f6;
+}

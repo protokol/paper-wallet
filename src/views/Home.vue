@@ -24,7 +24,7 @@
             >
         </div>
 
-        <button class="text-gray-500 inline-link" @click="toggle()" type="button">{{ toggleMessage }}</button>
+        <button class="link-button" @click="toggle()" type="button">{{ toggleMessage }}</button>
     </div>
 </template>
 

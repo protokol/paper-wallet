@@ -12,6 +12,8 @@ export default defineConfigWithVueTs(
             "test-results/**",
             "node_modules/**",
             "public/**",
+            ".claude/**",
+            ".agents/**",
         ],
     },
     pluginVue.configs["flat/essential"],

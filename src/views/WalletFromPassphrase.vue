@@ -1,41 +1,67 @@
 <template>
-    <div>
-        <div class="flex items-center wallet-from-passphrase mt-5">
-            <input
-                type="text"
-                placeholder="Enter your Passphrase"
-                v-model="passphrase"
-                class="border border-gray-200 p-4 mr-5"
-                id="wallet-passphrase"
-            />
-            <button class="primary-action-button focus:outline-hidden" @click.prevent="generateWallet">Generate</button>
-        </div>
-        <div class="flex flex-col items-center" v-if="errorText">
-            <Alert :message="errorText" type="error" />
-            <button class="text-gray-500 inline-link mt-3" @click.prevent="forceGenerateWallet">Generate Anyway</button>
+    <div class="w-full">
+        <form
+            class="mx-auto mt-5 flex w-full max-w-xl flex-col items-stretch gap-5 sm:flex-row sm:flex-wrap sm:items-end sm:justify-center"
+            @submit.prevent="generateWallet"
+        >
+            <div class="flex w-full flex-col sm:w-96">
+                <label class="field-label" for="wallet-passphrase">Secret passphrase</label>
+                <input
+                    id="wallet-passphrase"
+                    ref="passphraseInput"
+                    v-model="passphrase"
+                    v-bind="errorAttrs"
+                    type="text"
+                    class="field-input"
+                    placeholder="Enter your Passphrase"
+                    autocomplete="off"
+                />
+            </div>
+
+            <button class="primary-action-button w-full sm:w-auto" type="submit">Generate</button>
+        </form>
+
+        <div class="mx-auto flex max-w-xl flex-col items-center" v-if="errorText">
+            <Alert :id="ERROR_ID" :message="errorText" type="error" />
+            <button class="text-ink-muted inline-link mt-3" type="button" @click.prevent="forceGenerateWallet">
+                Generate Anyway
+            </button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, nextTick, ref } from "vue";
 import { useRouter } from "vue-router";
 import { validateMnemonic, walletFromBIP39 } from "@/crypto";
 import Alert from "@/components/Alert.vue";
+
+const ERROR_ID = "wallet-passphrase-error";
 
 const router = useRouter();
 
 const passphrase = ref("");
 const errorText = ref<string | null>(null);
+const passphraseInput = ref<HTMLInputElement | null>(null);
+
+const errorAttrs = computed((): Record<string, string> =>
+    errorText.value ? { "aria-invalid": "true", "aria-describedby": ERROR_ID } : {},
+);
+
+const failWith = (text: string): void => {
+    errorText.value = text;
+
+    void nextTick(() => passphraseInput.value?.focus());
+};
 
 const generateWallet = (): void => {
     if (!passphrase.value) {
-        errorText.value = "Please Fill out the Passphrase.";
+        failWith("Please Fill out the Passphrase.");
         return;
     }
 
     if (!validateMnemonic(passphrase.value)) {
-        errorText.value = "The Passphrase does not Appear to be BIP39";
+        failWith("The Passphrase does not Appear to be BIP39");
         return;
     }
 
@@ -51,13 +77,3 @@ const forceGenerateWallet = (): void => {
     });
 };
 </script>
-
-<style>
-@reference "tailwindcss";
-/* Custom Networks */
-input[type="text"] {
-    appearance: none;
-    @apply bg-transparent py-2 border-t-0 border-l-0 border-r-0 border-b-2 border-gray-500 rounded-none;
-    outline-color: #429ef5;
-}
-</style>

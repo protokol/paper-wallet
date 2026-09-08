@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class="flex flex-col items-center">
+    <div class="flex flex-col items-center">
         <div id="content">
             <h1 class="text-center">Protokol Paper Wallet</h1>
             <span class="text-center">Generate Your Own Unique Passphrase and Address</span>
@@ -9,11 +9,11 @@
             <modal :is-open="isOpen" @close="closeSettings()"></modal>
 
             <div class="flex flex-wrap justify-center items-center mt-10 print-ignore" v-if="!isGenerating">
-                <button class="text-gray-500 inline-link mr-4 underline-none" type="button" @click="openSettings()">
+                <button class="link-button mr-4" type="button" @click="openSettings()">
                     Choose Network: {{ network }}
                 </button>
 
-                <button class="text-gray-500 inline-link" type="button" @click="backToHome()" v-if="!isHome">
+                <button class="text-ink-muted inline-link" type="button" @click="backToHome()" v-if="!isHome">
                     Back to Home
                 </button>
             </div>
@@ -22,12 +22,12 @@
                 <span>Generating your Passphrase, Hang in there!</span>
             </div>
 
-            <div class="flex flex-col text-gray-500 text-center mt-10 mb-5 print-ignore">
+            <div class="flex flex-col text-ink-muted text-center mt-10 mb-5 print-ignore">
                 <span class="text-sm mt-2">
                     Made with ❤️
                     <a class="inline-link" href="https://ark.io" target="_blank">ARK.io</a> |
                     <a class="inline-link" href="https://protokol.com" target="_blank">Protokol.com</a> |
-                    <a class="inline-link" href="https://github.com/ArkEcosystem/paper-wallet" target="_blank"
+                    <a class="inline-link" href="https://github.com/protokol/paper-wallet" target="_blank"
                         >View Source</a
                     >
                 </span>
@@ -75,15 +75,11 @@ const closeSettings = (): void => {
 onMounted(() => refreshNetwork());
 </script>
 
-<style>
+<style scoped>
 #content {
     margin-top: 2%;
     background-image: url("assets/img/background.svg");
-    background-size: 34%;
+    background-size: min(34%, 420px);
     background-position: center top;
-}
-
-.underline-none {
-    text-decoration: none;
 }
 </style>

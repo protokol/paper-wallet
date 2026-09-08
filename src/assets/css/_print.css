@@ -1,20 +1,71 @@
-@import url("https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css");
+@page {
+    size: A4;
+    margin: 14mm;
+}
 
 @media print {
+    html,
+    body {
+        background: #ffffff !important;
+    }
+
     #content {
         padding-top: 3rem !important;
         background-image: none !important;
+    }
+
+    h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    #content > span {
+        font-size: 0.75rem;
     }
 
     .print-ignore {
         display: none !important;
     }
 
-    .passphrase-grid {
-        height: 8rem;
+    /* The card must keep its fill and boundary on paper, and must not straddle a page break.
+       The frame has to agree with the card it draws: Wallet.vue stacks a `rounded-t-lg`
+       panel over a `rounded-b-lg` one (8px each), and the border sits 1px outside them, so
+       the frame's radius is that 8px plus the border width. Its inner edge then lands
+       exactly on the panels' corners — a square rule leaves a white notch at each of them. */
+    #wallet-details {
+        border: 1px solid var(--color-line);
+        border-radius: calc(var(--radius-lg, 0.5rem) + 1px);
+        break-inside: avoid;
+        page-break-inside: avoid;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* The frame must hug the card, not float 16px above it: the top panel carries `mt-4`,
+       and that margin cannot collapse through the border, so it opens a band inside the
+       frame. `:first-child` is no use here — #wallet-details starts with two
+       `input[type="hidden"]` fields that never render — so zero the top margin on every
+       direct child; the panels are meant to stack flush anyway. */
+    #wallet-details > * {
+        margin-top: 0 !important;
+    }
+
+    #wallet-details * {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* Never clamp the grid's height: the words must always fit inside the card.
+       Scoped through #wallet-details so it outranks the equal-specificity
+       `.passphrase-grid { grid-gap: 0.75rem }` in Wallet.vue's own <style>. */
+    #wallet-details .passphrase-grid {
+        gap: 0.4rem;
     }
 
     .passphrase-grid > div {
-        height: 2.1rem;
+        padding-top: 0.15rem;
+        padding-bottom: 0.15rem;
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 }

@@ -1,9 +1,11 @@
 <template>
     <div class="wallet-from-entropy mt-5">
         <div class="relative">
-            <Spinner size="100" :line-size="5" line-fg-color="#444ce7" line-bg-color="#c4d0e2" />
+            <!-- Brand tokens, inlined because the component takes plain colour strings:
+                 #1a66b8 is --color-brand-600 and #c9d1dc is --color-line. -->
+            <Spinner size="100" :line-size="5" line-fg-color="#1a66b8" line-bg-color="#c9d1dc" />
             <div class="entropy-container">
-                <div class="entropy-wrapper-outer bg-gray-200 rounded-full h-16 w-16">
+                <div class="entropy-wrapper-outer bg-line rounded-full h-16 w-16">
                     <div class="entropy-wrapper-inner bg-white rounded-full h-12 w-12">
                         <span class="entropy-title">E{{ entropyProgress.title }}</span>
                         <span class="entropy-subtitle">{{ entropyProgress.subtitle }}</span>
@@ -111,8 +113,10 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style>
+<style scoped>
 @reference "tailwindcss";
+/* Colours come from the design tokens rather than @apply: `@reference "tailwindcss"` resolves
+   utilities against the stock theme, which knows nothing about the project's @theme block. */
 .entropy-container {
     height: 100px;
     position: absolute;
@@ -140,6 +144,7 @@ onBeforeUnmount(() => {
 }
 
 .entropy-subtitle {
-    @apply text-gray-500 text-sm;
+    color: var(--color-ink-muted);
+    @apply text-sm;
 }
 </style>
